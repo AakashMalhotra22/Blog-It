@@ -7,13 +7,13 @@ const Post = ()=>{
     <>
     <div className="post">
           <div className="image">
-            <img src={f_p} height="300px" width="300" />
+            <img src={f_p} alt ="error " height="300px" width="300" />
 
           </div>
           <div className="texts">
             <h2>This is title</h2>
             <p className="info">
-              <a className="author">Aakash Malhotra</a>
+              <a className="author" href="/">Aakash Malhotra</a>
               <time>2023-01-03 16:45</time>
             </p>
             <p className="summary">this is para</p>
@@ -21,6 +21,6 @@ const Post = ()=>{
         </div>
     </>
  )   
-}
+};
 
 export default Post;
