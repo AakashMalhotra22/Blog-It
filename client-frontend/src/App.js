@@ -1,44 +1,29 @@
 import './App.css';
 import React from 'react';
-import f_p from './f_p.jpg'
+import Post from './Components/Post';
+import Header from './Components/Header';
+import {Routes, Route } from 'react-router-dom';
 
 function App() {
   return (
     <>
-    <main>
-      <header>
-        <a href="" className="logo"> MyBlog</a>
-        <nav>
-          <a href="">Login</a>
-          <a href="">Register</a>
-        </nav>
-      </header>
-      <div className="post">
-        <img src={f_p} height ="300px" width ="300"/>
-        <div className = "texts">
-          <h2>This is title</h2>
-          <p>this is para</p>
-        </div>
-      </div>
+      <Routes>
+        <Route  path ="/" element ={
+        <main>
+          <Header/>
+          <Post/>
+          <Post/>
+      </main>}/>
 
-      <div className="post">
-        <img src={f_p} height ="300px" width ="300"/>
-        <div className = "texts">
-          <h2>This is title</h2>
-          <p>this is para</p>
-        </div>
-      </div>
-      <div className="post">
-        <img src={f_p} height ="300px" width ="300"/>
-        <div className = "texts">
-          <h2>This is title</h2>
-          <p>this is para</p>
-        </div>
-      </div>
+      <Route path ="/login" element = {
+        <div>login</div>
+      }/>
 
+      <Route path ="/register" element = {
+            <div>register</div>
+          }/>
+      </Routes>
       
-     
-    </main>
     </>
   );
 }
