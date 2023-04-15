@@ -25,4 +25,24 @@ const doRegister = async (req,res)=>
 
     res.json({"message":"Registration Successful", "details":req.body, "Encrypted password": secPass});
 }
-module.exports = {doRegister};
+
+const doLogin = async (req,res)=>
+{
+    const {username,password} = req.body;
+    
+    // checking user already exist
+    let user = await User.findOne({username:req.body.username});
+    if(!user)
+    {
+        return res.status(400).json({'msg':"username doesnot exist"});
+    }
+
+    // decrypting the password
+    const passwordCompare = await bcrypt.compare(password,user.password);
+    if(!passwordCompare)
+    {
+        return res.status(400).json({'msg':"Wrong password"});
+    }
+    res.json({"message":"Login Successful", "details":req.body});
+}
+module.exports = {doRegister,doLogin};

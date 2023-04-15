@@ -17,7 +17,7 @@ const RegisterPage = ()=>{
     const register = async (event)=>
      {
         event.preventDefault();
-        console.log("hi");
+
         let response = await fetch('http://127.0.0.1:5000/api/v1/auth/register',{
             method: 'POST',
             body: JSON.stringify({username,password}),
@@ -32,8 +32,6 @@ const RegisterPage = ()=>{
         {
             alert(json.message);
         }
-        console.log(json);
-
     }
 
     return (
