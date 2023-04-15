@@ -17,13 +17,13 @@ const RegisterPage = ()=>{
     const register = async (event)=>
      {
         event.preventDefault();
-
         let response = await fetch('http://127.0.0.1:5000/api/v1/auth/register',{
             method: 'POST',
             body: JSON.stringify({username,password}),
             headers:{'Content-Type':'application/json'},
         })
         const json = await response.json();
+        
         if(response.ok==false)
         {
             alert(json.msg);
