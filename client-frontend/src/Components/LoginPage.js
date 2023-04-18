@@ -1,11 +1,14 @@
 import React from 'react'
-import {useState} from 'react'
-import {Navigate} from 'react-router-dom';
+import {useState, useContext} from 'react'
+import {Navigate, useNavigate} from 'react-router-dom';
+import { UserContext } from '../context/usercontext';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const[username, setusername] = useState('');
   const [password,setpassword] = useState('');
-  const [redirect, setRedirect] = useState('false');
+
+  const {userInfo, setUserInfo} = useContext(UserContext);
 
   const fn1 = (event)=>
   {
@@ -33,14 +36,11 @@ const LoginPage = () => {
       {
         localStorage.setItem('token',json.token); 
         console.log(localStorage.getItem('token'));
-        setRedirect(true);
+        setUserInfo({'token': localStorage.getItem('token')});
+        navigate("/");
       }
   }
 
-  if(redirect)
-  {
-    return <Navigate to={"/"}/>
-  }
 
   return (
     <>
