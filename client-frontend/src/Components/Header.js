@@ -1,18 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import React, {useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import {UserContext} from '../context/usercontext';
 
 const Header = ()=>
 {
-    const {userInfo, setUserInfo} = useContext(UserContext);
-   
+    const {userInfo, setUserInfo} = useContext(UserContext);   
     const navigate = useNavigate();
 
-    // useEffect(()=>
-    // {
-    //     setUserInfo({'token': localStorage.getItem('token')});
-    // },[])
-
+    // logout function
     const logout =()=>
     {
         localStorage.removeItem('token');
@@ -28,7 +23,7 @@ const Header = ()=>
                 {userInfo && (
                     <>
                     <Link to="/create">create new post</Link>
-                    <a onClick={logout}>Logout</a>
+                    <a  onClick={logout}>Logout</a>
                     </>
                 )}
                 {!userInfo &&(

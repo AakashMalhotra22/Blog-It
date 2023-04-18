@@ -11,7 +11,7 @@ function App() {
   const [userInfo,setUserInfo] = useState({});
   return (
     <>
-     <BrowserRouter>
+    <BrowserRouter>
     <UserContext.Provider value={{userInfo,setUserInfo}}>
       <Routes>
         <Route  path ="/" element ={<Layout/>}>

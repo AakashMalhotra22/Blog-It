@@ -1,6 +1,6 @@
 import React from 'react'
 import {useState, useContext} from 'react'
-import {Navigate, useNavigate} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { UserContext } from '../context/usercontext';
 
 const LoginPage = () => {
@@ -8,7 +8,7 @@ const LoginPage = () => {
   const[username, setusername] = useState('');
   const [password,setpassword] = useState('');
 
-  const {userInfo, setUserInfo} = useContext(UserContext);
+  const {setUserInfo} = useContext(UserContext);
 
   const fn1 = (event)=>
   {
@@ -28,7 +28,7 @@ const LoginPage = () => {
       })
       const json = await response.json();
       
-      if(response.ok==false)
+      if(response.ok===false)
       {
           alert(json.msg);
       }
