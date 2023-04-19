@@ -6,6 +6,7 @@ import IndexPage from './Components/IndexPage';
 import LoginPage from './Components/LoginPage';
 import RegisterPage from './Components/RegisterPage';
 import { UserContext } from './context/usercontext';
+import CreatePost from './Components/CreatePost';
 
 function App() {
   const [userInfo,setUserInfo] = useState({});
@@ -18,6 +19,7 @@ function App() {
           <Route index element = {<IndexPage/>}/>
           <Route path ="login" element = {<LoginPage/>} />
           <Route path ="register" element = {<RegisterPage/>}/>
+          <Route path ="/create" element = {<CreatePost/>} />
         </Route>
       </Routes>
      </UserContext.Provider>
