@@ -14,7 +14,11 @@ const errorHandlerMiddleware = require('./middleware/errorhandler');
 app.use(cors());
 app.use(express.json());
 
+//image route
+app.use('/uploads',express.static(__dirname +'/uploads'));
+// login and register route
 app.use('/api/v1/auth', authroute);
+// post route
 app.use('/api/v1/blog', blogroute);
 app.use(errorHandlerMiddleware);
 

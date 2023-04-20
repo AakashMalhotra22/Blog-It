@@ -14,12 +14,13 @@ const IndexPage = ()=>
             setPosts(post);
         }
         allposts();
-    },[])
+    },[]) 
 
     return(
         <>
             {posts.length>0 && posts.map((post)=>
             {
+                console.log('http://localhost:5000/'+post.cover);
                 return <Post title ={post.title} summary = {post.summary} content = {post.content} cover = {post.cover} createdAt = {post.createdAt} author ={post.author} />
             })}
         </>

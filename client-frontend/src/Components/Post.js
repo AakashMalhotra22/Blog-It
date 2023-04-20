@@ -8,7 +8,7 @@ const Post = (props)=>{
     <>
     <div className="post">
           <div className="image">
-            <img src={f_p} alt ="error " height="300px" width="300" />
+            <img src={'http://localhost:5000/'+props.cover} alt ="error " height="300px" width="300" />
 
           </div>
           <div className="texts">

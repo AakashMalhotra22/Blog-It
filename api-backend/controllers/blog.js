@@ -39,7 +39,9 @@ const doCreatePost = async (req,res)=>
 
 const doAccessPost = async(req,res)=>
 {
-    const allposts = await Post.find();
+    const allposts = await Post.find()
+    .sort({createdAt:-1})
+    .limit(20);
     res.json(allposts);
 }
 
