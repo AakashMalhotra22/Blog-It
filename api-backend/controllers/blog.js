@@ -37,12 +37,20 @@ const doCreatePost = async (req,res)=>
     res.json(postDoc);
 }
 
-const doAccessPost = async(req,res)=>
+const doAccessAllPosts = async(req,res)=>
 {
+    // asccessing all post according to recent time with a limit of 20
     const allposts = await Post.find()
     .sort({createdAt:-1})
     .limit(20);
     res.json(allposts);
 }
 
-module.exports = {doCreatePost, doAccessPost};
+const doSinglePost = async(req,res)=>
+{   
+    const {id} = req.params;
+    let singlePost = await Post.findById(id);
+    res.json(singlePost);
+}
+
+module.exports = {doCreatePost, doAccessAllPosts,doSinglePost};

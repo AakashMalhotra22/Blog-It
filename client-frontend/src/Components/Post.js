@@ -1,27 +1,30 @@
 import React from 'react';
-import f_p from '../f_p.jpg'
-import {formatISO9075} from "date-fns";
-import { formatISO9075WithOptions } from 'date-fns/fp';
+import { formatISO9075 } from "date-fns";
+import { Link } from 'react-router-dom';
 
-const Post = (props)=>{
- return(
+const Post = (props) => {
+  return (
     <>
-    <div className="post">
-          <div className="image">
-            <img src={'http://localhost:5000/'+props.cover} alt ="error " height="300px" width="300" />
+      <div className="post">
+        <div className="image">
+          <Link to={`/post/${props.id}`}>
+            <img src={'http://localhost:5000/' + props.cover} alt="error " height="300px" width="300" />
+          </Link>
 
-          </div>
-          <div className="texts">
-            <h2>{props.title}</h2>
-            <p className="info">
-              <a className="author" href="/">{props.author}</a>
-              <time>{formatISO9075(new Date(props.createdAt))}</time>
-            </p>
-            <p className="summary">{props.summary}</p>
-          </div>
         </div>
+        <div className="texts">
+          <Link to={`/post/${props.id}`}>
+            <h2>{props.title}</h2>
+          </Link>
+          <p className="info">
+            <a className="author" href="/">{props.author}</a>
+            <time>{formatISO9075(new Date(props.createdAt))}</time>
+          </p>
+          <p className="summary">{props.summary}</p>
+        </div>
+      </div>
     </>
- )   
+  )
 };
 
 export default Post;
