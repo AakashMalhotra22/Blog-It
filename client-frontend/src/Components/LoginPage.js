@@ -35,9 +35,7 @@ const LoginPage = () => {
       else
       {
         localStorage.setItem('token',json.token);
-        console.log(`The data is ${json.details}` );
-        console.log(localStorage.getItem('token'));
-        setUserInfo({'token': localStorage.getItem('token')});
+        setUserInfo({'token': localStorage.getItem('token'), 'id': json.id});
         navigate("/");
       }
   }

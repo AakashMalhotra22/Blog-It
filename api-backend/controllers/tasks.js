@@ -48,6 +48,6 @@ const doLogin = async (req,res)=>
     //creating token
     const authtoken = jwt.sign({username,id:user._id},process.env.JWT_SECRET);
 
-    res.json({"message":"Login Successful", "details":req.body,"token": authtoken});
+    res.json({"message":"Login Successful", "details":req.body,"token": authtoken, "id": user._id});
 }
 module.exports = {doRegister,doLogin};

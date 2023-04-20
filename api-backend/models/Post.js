@@ -6,7 +6,8 @@ const PostSchema = new Schema({
   summary:String,
   content:String,
   cover:String,
-  author:String
+  author:String,
+  authorId: String,  
 }, {
   timestamps: true,
 });

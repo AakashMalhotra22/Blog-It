@@ -23,6 +23,7 @@ const doCreatePost = async (req,res)=>
 
     const data = jwt.verify(token,process.env.JWT_SECRET);
     const username = data.username;
+    const userId = data.id;
 
     // Storing a post in database 
     const {title, summary,content} = req.body;
@@ -31,8 +32,8 @@ const doCreatePost = async (req,res)=>
         summary,
         content,
         cover: newPath,
-        author: username
-
+        author: username,
+        authorId: userId
     })
     res.json(postDoc);
 }

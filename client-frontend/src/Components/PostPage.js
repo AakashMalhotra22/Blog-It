@@ -1,12 +1,12 @@
 import {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {formatISO9075} from "date-fns";
-// import {UserContext} from "../context/usercontext";
-// import {Link} from 'react-router-dom';
+import {UserContext} from "../context/usercontext";
+import {Link} from 'react-router-dom';
 
 export default function PostPage() {
   const [postInfo,setPostInfo] = useState(null);
-//  const {userInfo} = useContext(UserContext);
+  const {userInfo} = useContext(UserContext);
   const {id} = useParams();
   
   useEffect(() => {
@@ -31,7 +31,7 @@ export default function PostPage() {
 
       <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
       
-      <div className="author">by @{postInfo.author.username}</div>
+      <div className="author">by @{postInfo.author}</div>
 
       {/* {userInfo.id === postInfo.author._id && (
         <div className="edit-row">
