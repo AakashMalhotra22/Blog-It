@@ -23,7 +23,7 @@ const Header = ()=>
                 {userInfo && (
                     <>
                     <Link to="/create">create new post</Link>
-                    <a  onClick={logout}>Logout</a>
+                    <a onClick={logout}>Logout</a>
                     </>
                 )}
                 {!userInfo &&(

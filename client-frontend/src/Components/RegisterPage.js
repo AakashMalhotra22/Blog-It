@@ -24,7 +24,7 @@ const RegisterPage = ()=>{
         })
         const json = await response.json();
         
-        if(response.ok==false)
+        if(response.ok===false)
         {
             alert(json.msg);
         }

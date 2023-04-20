@@ -47,14 +47,14 @@ const CreatePost = ()=>{
         });
         
         // user is not authorized, navigate to login page
-        if(response.status == 401)
+        if(response.status === 401)
         {
                alert("Unauthorized Access: Login Again");
                localStorage.removeItem('token');
                navigate("/login")
         }
         // if properly works, navigate to blog page
-        else if (response.status ==200) 
+        else if (response.status === 200) 
         {
             console.log(response.status);
           navigate("/");
