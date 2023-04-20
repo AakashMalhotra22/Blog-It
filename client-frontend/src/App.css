@@ -91,8 +91,12 @@ button{
   background-color: #555;
   border:0;
   color: #fff;
-  border-radius: 5px;
-  padding: 7px 0;
+  border-radius: 0.35rem;
+  padding: 8px;
+}
+button:hover{
+  background-color:#aaa;
+  color: #333;
 }
 form.login h1, form.register h1{
   text-align: center;
@@ -136,7 +140,7 @@ div.content p{
 div.content li{
   margin-bottom: 10px;
 }
-/* div.edit-row{
+div.edit-row{
   text-align: center;
   margin-bottom: 20px;
 }
@@ -146,10 +150,10 @@ div.post-page a.edit-btn{
   align-items: center;
   gap: 5px;
   color: #fff;
-  padding:15px 30px;
-  border-radius: 5px;
+  padding:10px 10px;
+  border-radius: 0.35rem;
   text-decoration: none;
 }
-a svg{
-  height:20px;
-} */
+.edit-btn{
+  margin: 10px;
+}

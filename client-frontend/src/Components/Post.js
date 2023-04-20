@@ -17,10 +17,9 @@ const Post = (props) => {
             <h2>{props.title}</h2>
           </Link>
           <p className="info">
-          <Link to={`/post/${props.id}`}>
-            <a className="author" href="/">{props.author}</a>
-          </Link>
-            
+            <Link to={`/post/${props.id}`}>
+              <a className="author" href="/">{props.author}</a>
+            </Link>
             <time>{formatISO9075(new Date(props.createdAt))}</time>
           </p>
           <p className="summary">{props.summary}</p>
