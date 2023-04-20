@@ -43,6 +43,7 @@ const CreatePost = ()=>{
         // if properly works, navigate to blog page
         if (response.ok) 
         {
+            console.log(response.status);
           navigate("/");
         }
         // Ask to login again
@@ -59,7 +60,7 @@ const CreatePost = ()=>{
             <input type="title" placeholder={'Title'} value={title} onChange={ev => setTitle(ev.target.value)} />
             <input type="summary" placeholder={'Summary'} value={summary} onChange={ev => setSummary(ev.target.value)} />
             <input type="file" onChange={ev => setFiles(ev.target.files)} />
-            <ReactQuill/>
+            <ReactQuill value ={content} modules = {modules} onChange={newValue=>setContent(newValue)}/>
             <button style={{marginTop:'5px'}}>Create Post</button>
         </form>
     )
