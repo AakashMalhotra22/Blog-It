@@ -1,8 +1,9 @@
 import React from 'react';
 import f_p from '../f_p.jpg'
+import {formatISO9075} from "date-fns";
+import { formatISO9075WithOptions } from 'date-fns/fp';
 
-
-const Post = ()=>{
+const Post = (props)=>{
  return(
     <>
     <div className="post">
@@ -11,12 +12,12 @@ const Post = ()=>{
 
           </div>
           <div className="texts">
-            <h2>This is title</h2>
+            <h2>{props.title}</h2>
             <p className="info">
               <a className="author" href="/">Aakash Malhotra</a>
-              <time>2023-01-03 16:45</time>
+              <time>{formatISO9075(new Date(props.createdAt))}</time>
             </p>
-            <p className="summary">this is para</p>
+            <p className="summary">{props.summary}</p>
           </div>
         </div>
     </>

@@ -24,11 +24,13 @@ const doCreatePost = async (req,res)=>
         cover: newPath,
 
     })
-
-
     res.json(postDoc);
-
-
 }
 
-module.exports = {doCreatePost};
+const doAccessPost = async(req,res)=>
+{
+    const allposts = await Post.find();
+    res.json(allposts);
+}
+
+module.exports = {doCreatePost, doAccessPost};
