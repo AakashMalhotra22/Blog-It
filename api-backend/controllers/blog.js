@@ -14,6 +14,15 @@ const doCreatePost = async (req,res)=>
     const newPath = path+'.'+ext;
     fs.renameSync(path, newPath);
 
+    // checking token or verifying user
+    const token = req.header('token');
+    if(!token)
+    {
+        res.status(401).send("unauthorized token");  
+    }
+
+    const data = jwt.verify(token,process.env.JWT_SECRET);
+    const username = data.username;
 
     // Storing a post in database 
     const {title, summary,content} = req.body;
@@ -22,6 +31,7 @@ const doCreatePost = async (req,res)=>
         summary,
         content,
         cover: newPath,
+        author: username
 
     })
     res.json(postDoc);

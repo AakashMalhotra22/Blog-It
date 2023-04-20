@@ -20,7 +20,7 @@ const IndexPage = ()=>
         <>
             {posts.length>0 && posts.map((post)=>
             {
-                return <Post title ={post.title} summary = {post.summary} content = {post.content} cover = {post.cover} createdAt = {post.createdAt} />
+                return <Post title ={post.title} summary = {post.summary} content = {post.content} cover = {post.cover} createdAt = {post.createdAt} author ={post.author} />
             })}
         </>
     )

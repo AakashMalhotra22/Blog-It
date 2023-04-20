@@ -39,20 +39,26 @@ const CreatePost = ()=>{
         const response = await fetch('http://127.0.0.1:5000/api/v1/blog/post', {
           method: 'POST',
           body: data,
+          headers:
+            {
+                'token': localStorage.getItem('token')
+            },
+
         });
+        
+        // user is not authorized, navigate to login page
+        if(response.status == 401)
+        {
+               alert("Unauthorized Access: Login Again");
+               localStorage.removeItem('token');
+               navigate("/login")
+        }
         // if properly works, navigate to blog page
-        if (response.ok) 
+        else if (response.status ==200) 
         {
             console.log(response.status);
           navigate("/");
         }
-        // Ask to login again
-        // else
-        // {
-        //     alert("Can't Upload Post");
-        //     localStorage.removeItem('token');
-        //     navigate("/login")
-        // }
       }
     
     return(

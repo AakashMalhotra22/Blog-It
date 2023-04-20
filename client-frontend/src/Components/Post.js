@@ -14,7 +14,7 @@ const Post = (props)=>{
           <div className="texts">
             <h2>{props.title}</h2>
             <p className="info">
-              <a className="author" href="/">Aakash Malhotra</a>
+              <a className="author" href="/">{props.author}</a>
               <time>{formatISO9075(new Date(props.createdAt))}</time>
             </p>
             <p className="summary">{props.summary}</p>
