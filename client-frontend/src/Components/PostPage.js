@@ -2,12 +2,13 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
 import { UserContext } from "../context/usercontext";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export default function PostPage() {
     const [postInfo, setPostInfo] = useState(null);
     const { userInfo } = useContext(UserContext);
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
 
@@ -15,17 +16,29 @@ export default function PostPage() {
             let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`)
             let post = await response.json();
             setPostInfo(post);
-            console.log(postInfo);
-            console.log(userInfo)
+            // console.log(postInfo);
+            // console.log(userInfo)
         }
         singlePost();
     }, []);
 
     if (!postInfo) return '';
 
+    // delete request
     const deletepost = (ev)=>
     {
-        console.log("deletebutton invoked");
+        const fn = async()=>
+        {
+            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,
+            {
+                method: 'DELETE'
+            })
+            let deleteMessage = await response.json();
+            console.log(deleteMessage);
+            navigate("/");
+        }
+        fn();
+        
     }
 
     return (

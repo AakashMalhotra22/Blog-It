@@ -53,5 +53,11 @@ const doSinglePost = async(req,res)=>
     let singlePost = await Post.findById(id);
     res.json(singlePost);
 }
+const doDeletePost = async(req,res)=>
+{
+    const {id} = req.params;
+    let singlePost = await Post.findByIdAndDelete(id);
+    res.json(singlePost);
+}
 
-module.exports = {doCreatePost, doAccessAllPosts,doSinglePost};
+module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost};
