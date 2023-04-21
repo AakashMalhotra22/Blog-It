@@ -23,6 +23,11 @@ export default function PostPage() {
 
     if (!postInfo) return '';
 
+    const deletepost = (ev)=>
+    {
+        console.log("deletebutton invoked");
+    }
+
     return (
 
         <div className="post-page">
@@ -37,9 +42,9 @@ export default function PostPage() {
                     <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
                         <button> Edit Post</button>
                     </Link>
-                    <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
-                        <button> Delete Post</button>
-                    </Link>
+                    
+                    <button className="edit-btn" onClick={deletepost}> Delete Post</button>
+                    
                 </div>
             )}
             <div className="image">
