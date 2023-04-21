@@ -9,6 +9,7 @@ import LoginPage from './Components/LoginPage';
 import RegisterPage from './Components/RegisterPage';
 import CreatePost from './Components/CreatePost';
 import PostPage from './Components/PostPage';
+import EditPost from './Components/EditPost';
 
 function App() {
   const [userInfo, setUserInfo] = useState({});
@@ -23,6 +24,7 @@ function App() {
               <Route path="register" element={<RegisterPage />} />
               <Route path="/create" element={<CreatePost />} />
               <Route path="/post/:id" element={<PostPage />} />
+              <Route path="/edit/:id" element={<EditPost />} />
             </Route>
           </Routes>
         </UserContext.Provider>
