@@ -1,7 +1,6 @@
-const bcrypt  = require('bcryptjs');
 const User = require('../models/users');
+const bcrypt  = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { validationResult } = require('express-validator');
 
 const doRegister = async (req,res)=>
 {
@@ -25,14 +24,14 @@ const doRegister = async (req,res)=>
           password: secPass,
     })
 
-    res.json({"msg":"Registration Successful", "details":req.body, "Encrypted password": secPass});
+    res.json({"msg":"Registration Successful", "details":req.body});
 }
 
 const doLogin = async (req,res)=>
 {
     const {username,password} = req.body;
     
-    // checking user already exist
+    // checking user existence
     let user = await User.findOne({username:req.body.username});
     if(!user)
     {

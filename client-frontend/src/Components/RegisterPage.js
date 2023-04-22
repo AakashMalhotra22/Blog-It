@@ -29,8 +29,7 @@ const RegisterPage = ()=>{
         if(response.ok)
         {
             navigate("/login");
-        }
-        
+        }   
     }
 
     return (

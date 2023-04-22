@@ -1,18 +1,14 @@
-const bcrypt  = require('bcryptjs');
-const User = require('../models/users');
-const jwt = require('jsonwebtoken');
-const fs = require('fs');
- 
 const Post = require('../models/Post');
- 
+const bcrypt  = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const fs = require('fs'); 
+
 const doCreatePost = async (req,res)=>
 {
     // storing file with the extension in uploads
     const {originalname,path} = req.file;
     const parts = originalname.split('.');
     const ext = parts[parts.length - 1];
-
-    // const extension = ['jpg', 'jpeg', 'png', ]
 
     const newPath = path+'.'+ext;
     fs.renameSync(path, newPath);

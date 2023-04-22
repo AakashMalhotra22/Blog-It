@@ -2,47 +2,23 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const uploadMiddleware = multer({dest: 'uploads/'}); 
+const { validateCreatePost }  = require('../middleware/createPostValidator');
+const {validateEditPost} = require('../middleware/editPostValidator');
 
-const {doCreatePost, doAccessAllPosts,doSinglePost,doDeletePost,doUpdatePost} = require('../controllers/blog');
+const {doCreatePost, 
+       doAccessAllPosts,
+       doSinglePost,
+       doDeletePost,
+       doUpdatePost} = require('../controllers/blog-controllers');
 
-const validateCreate = (req,res,next)=>{
-    const expectedFileType = ['png', 'jpg', 'jpeg', 'webp'];
-    if(!req.file)
-    {
-        return res.status(404).json({"msg": "Upload an Image"});
-    }
-    const {originalname} = req.file;
-    const parts = originalname.split('.');
-    const ext = parts[parts.length - 1];
-
-    if(!expectedFileType.includes(ext))
-    {
-        return res.status(403).json({"msg": "You can only upload Image"});
-    }
-    next();
-}
-
-const validateUpdate = (req,res,next)=>{
-    const expectedFileType = ['png', 'jpg', 'jpeg', 'webp'];
-    if(!req.file)
-    {
-        next();
-    }
-    const {originalname} = req.file;
-    const parts = originalname.split('.');
-    const ext = parts[parts.length - 1];
-
-    if(!expectedFileType.includes(ext))
-    {
-        return res.status(403).json({"msg": "You can only upload Image"});
-    }
-    next();
-}
-
-router.route('/post').post(uploadMiddleware.single('file'),validateCreate, doCreatePost);
+// uploading a post
+router.route('/post').post(uploadMiddleware.single('file'),validateCreatePost, doCreatePost);
+// accessing all post
 router.route('/allposts').get(doAccessAllPosts);
+// accessing and deleting single post
 router.route('/post/:id').get(doSinglePost).delete(doDeletePost);
-router.route('/updatepost').put(uploadMiddleware.single('file'),validateUpdate, doUpdatePost);
+// updating a post
+router.route('/updatepost').put(uploadMiddleware.single('file'),validateEditPost, doUpdatePost);
 
 module.exports = router;
  
