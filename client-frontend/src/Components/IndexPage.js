@@ -9,6 +9,8 @@ const IndexPage = ()=>
     const navigate = useNavigate();
 
     const [posts, setPosts] = useState('');
+
+    //Accessing all the post for the Main page
     useEffect( ()=>
     {
         const allposts = async()=>

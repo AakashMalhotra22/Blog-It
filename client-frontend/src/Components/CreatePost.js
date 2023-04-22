@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Editor from './Editor';
 
 const CreatePost = ()=>{
+
     const navigate = useNavigate();
 
     const [title,setTitle] = useState('');
@@ -61,4 +62,4 @@ const CreatePost = ()=>{
     )
 }
 
-export default CreatePost; 
+export default CreatePost;

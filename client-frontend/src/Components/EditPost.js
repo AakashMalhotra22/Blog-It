@@ -6,13 +6,16 @@ import { useNavigate, useParams } from 'react-router-dom';
 const EditPost = () => 
 {
     const navigate = useNavigate();
+    
     const {id} = useParams();
     const [title,setTitle] = useState('');
     const [summary,setSummary] = useState('');
     const [content,setContent] = useState('');
     const [files, setFiles] = useState('');
 
-    useEffect(() => {
+    //Accessing the post before Editing
+    useEffect(() => 
+    {
         
         const fn = async()=>{
             let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,{
@@ -22,6 +25,13 @@ const EditPost = () =>
               },
             });
             let postInfo = await response.json();
+            
+            if(response.status === 401)
+            {
+                  alert("Unauthorized Access: Login Again");
+                  localStorage.removeItem('token');
+                  navigate("/login")
+            }
             setTitle(postInfo.title);
             setContent(postInfo.content);
             setSummary(postInfo.summary);

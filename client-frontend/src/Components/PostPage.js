@@ -11,6 +11,7 @@ export default function PostPage()
     const { id } = useParams();
     const navigate = useNavigate();
 
+    // Accessing single Post
     useEffect(() => {
 
         const singlePost = async () => {
