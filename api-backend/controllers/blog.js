@@ -2,7 +2,7 @@ const bcrypt  = require('bcryptjs');
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
 const fs = require('fs');
-
+ 
 const Post = require('../models/Post');
  
 const doCreatePost = async (req,res)=>
