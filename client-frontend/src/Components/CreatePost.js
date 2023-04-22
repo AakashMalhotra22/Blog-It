@@ -29,6 +29,7 @@ const CreatePost = ()=>{
             },
 
         });
+        const json = await response.json();
         
         // user is not authorized, navigate to login page
         if(response.status === 401)
@@ -37,11 +38,15 @@ const CreatePost = ()=>{
                localStorage.removeItem('token');
                navigate("/login")
         }
-        // if properly works, navigate to blog page
-        else if (response.status === 200) 
+        // validation errors
+        else if(response.status ===403 || response.status === 404 || response.status ===500)
         {
-            console.log(response.status);
-          navigate("/");
+             alert(json.msg);
+        }
+        // if properly works, navigate to blog page
+        else if(response.ok)
+        {
+            navigate("/");
         }
       }
     

@@ -1,8 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 
 const RegisterPage = ()=>{
+    const navigate = useNavigate();
     const[username, setusername] = useState('');
     const [password,setpassword] = useState('');
 
@@ -23,28 +25,12 @@ const RegisterPage = ()=>{
             headers:{'Content-Type':'application/json'},
         })
         const json = await response.json();
-        console.log(response.status);
+        alert(json.msg);
         if(response.ok)
         {
-            alert(json.message);
+            navigate("/login");
         }
-        else if(response.status == 403)
-        {
-            console.log(json.errors);
-            console.log(json.errors[0].path);
-            if(json.errors[0].path == "username")
-            {
-                alert("username should be of atleast 3 characters");
-            }
-            else
-            {
-                alert("Password should be of atleast 8 characters");
-            }
-        }
-        else
-        {
-            alert(json.msg);
-        }
+        
     }
 
     return (

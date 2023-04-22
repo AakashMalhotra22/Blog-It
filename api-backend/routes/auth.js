@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator');
-
 const {doRegister, doLogin} = require('../controllers/tasks');
 
 // Register validation
@@ -14,11 +13,9 @@ const validator =
 const result = (req,res,next)=>
 {
     const errors = validationResult(req);
-    console.log(errors);
     if (!errors.isEmpty())
     {
         const err = errors.array()[0].msg;
-        console.log(err);
         return res.status(403).json({"msg": err});
     }
     next();
