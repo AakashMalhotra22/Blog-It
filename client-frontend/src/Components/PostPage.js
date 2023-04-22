@@ -4,7 +4,8 @@ import { formatISO9075 } from "date-fns";
 import { UserContext } from "../context/usercontext";
 import { Link, useNavigate } from 'react-router-dom';
 
-export default function PostPage() {
+export default function PostPage() 
+{
     const [postInfo, setPostInfo] = useState(null);
     const { userInfo } = useContext(UserContext);
     const { id } = useParams();
@@ -13,11 +14,24 @@ export default function PostPage() {
     useEffect(() => {
 
         const singlePost = async () => {
-            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`)
+            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,
+            {
+                headers:
+                {
+                        'token': localStorage.getItem('token')
+                },
+            })
             let post = await response.json();
-            setPostInfo(post);
-            // console.log(postInfo);
-            // console.log(userInfo)
+            if(response.ok)
+            {
+                setPostInfo(post);
+            }
+            else
+            {
+                navigate("/login");
+            }
+            
+            
         }
         singlePost();
     }, []);
@@ -55,7 +69,7 @@ export default function PostPage() {
                     <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
                         <button> Edit Post</button>
                     </Link>
-                    
+        
                     <button className="edit-btn" onClick={deletepost}> Delete Post</button>
                     
                 </div>

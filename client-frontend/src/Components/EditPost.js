@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const EditPost = () => 
 {
+    const navigate = useNavigate();
     const {id} = useParams();
     const [title,setTitle] = useState('');
     const [summary,setSummary] = useState('');
@@ -14,7 +15,7 @@ const EditPost = () =>
     useEffect(() => {
         
         const fn = async()=>{
-            let response = await fetch('http://localhost:5000/post/'+id);
+            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`);
             let postInfo = await response.json();
             setTitle(postInfo.title);
             setContent(postInfo.content);
@@ -27,6 +28,7 @@ const EditPost = () =>
       const updatePost = async(ev)=>
       {
               ev.preventDefault();
+              
               const data = new FormData();
               data.set('title', title);
               data.set('summary', summary);
@@ -35,15 +37,20 @@ const EditPost = () =>
               if (files?.[0]) {
                 data.set('file', files?.[0]);
               }
-  
-              // const response = await fetch('http://localhost:4000/post', {
-              //   method: 'PUT',
-              //   body: data,
-              //   credentials: 'include',
-              // });
-              // if (response.ok) {
-              //   setRedirect(true);
-              // }  
+              
+              const response = await fetch(`http://127.0.0.1:5000/api/v1/blog/updatepost`, {
+                method: 'PUT',
+                body: data,
+                headers:
+                    {
+                        'token': localStorage.getItem('token')
+                    },
+              });
+              const output = await response.json();
+              if (response.ok) {
+                console.log("hi");
+                navigate(`/post/${id}`)
+              }  
       }
       
     return(
@@ -52,7 +59,7 @@ const EditPost = () =>
             <input type="summary" placeholder={'Summary'} value={summary} onChange={ev => setSummary(ev.target.value)} />
             <input type="file" onChange={ev => setFiles(ev.target.files)} />
             <Editor value={content} onChange={setContent} />
-            <button style={{marginTop:'5px'}}>Create Post</button>            
+            <button style={{marginTop:'5px'}}>Edit Post</button>            
         </form>
     )
 }

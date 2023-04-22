@@ -40,6 +40,14 @@ const doCreatePost = async (req,res)=>
 
 const doAccessAllPosts = async(req,res)=>
 {
+    // checking token or verifying user
+    const token = req.header('token');
+    if(!token)
+    {
+        res.status(401).send("unauthorized token");  
+    }
+    jwt.verify(token,process.env.JWT_SECRET);
+
     // asccessing all post according to recent time with a limit of 20
     const allposts = await Post.find()
     .sort({createdAt:-1})
@@ -60,4 +68,43 @@ const doDeletePost = async(req,res)=>
     res.json(singlePost);
 }
 
-module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost};
+const doUpdatePost = async(req,res)=>
+{
+    let newPath = null;
+    if (req.file) 
+    {
+        const {originalname,path} = req.file;
+        const parts = originalname.split('.');
+        const ext = parts[parts.length - 1];
+        newPath = path+'.'+ext;
+        fs.renameSync(path, newPath);
+    }
+
+    // checking token or verifying user
+    const token = req.header('token');
+    if(!token)
+    {
+        res.status(401).send("unauthorized token");  
+    }
+    const data = jwt.verify(token,process.env.JWT_SECRET);
+
+    const {title, summary,content, id } = req.body;
+    
+    // Updating the Post
+    
+    const filter = {_id : id};
+    const upd = 
+    {
+        title,
+        summary,
+        content,
+    }
+    if(newPath)
+    {
+        upd.cover = newPath
+    }
+    const postD = await Post.findOneAndUpdate(filter,upd, {new:true})
+    res.json(postD);
+}
+
+module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost};
