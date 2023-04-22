@@ -46,11 +46,14 @@ const EditPost = () =>
                         'token': localStorage.getItem('token')
                     },
               });
-              const output = await response.json();
+              const json = await response.json();
               if (response.ok) {
-                console.log("hi");
                 navigate(`/post/${id}`)
               }  
+              else if(response.status ===403 || response.status === 404 || response.status ===500)
+              {
+                    alert(json.msg);
+              }
       }
       
     return(
