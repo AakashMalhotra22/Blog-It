@@ -23,14 +23,27 @@ const RegisterPage = ()=>{
             headers:{'Content-Type':'application/json'},
         })
         const json = await response.json();
-        
-        if(response.ok===false)
+        console.log(response.status);
+        if(response.ok)
         {
-            alert(json.msg);
+            alert(json.message);
+        }
+        else if(response.status == 403)
+        {
+            console.log(json.errors);
+            console.log(json.errors[0].path);
+            if(json.errors[0].path == "username")
+            {
+                alert("username should be of atleast 3 characters");
+            }
+            else
+            {
+                alert("Password should be of atleast 8 characters");
+            }
         }
         else
         {
-            alert(json.message);
+            alert(json.msg);
         }
     }
 

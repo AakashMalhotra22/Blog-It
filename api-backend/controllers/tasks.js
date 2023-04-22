@@ -1,9 +1,19 @@
 const bcrypt  = require('bcryptjs');
 const User = require('../models/users');
 const jwt = require('jsonwebtoken');
+const { validationResult } = require('express-validator');
 
 const doRegister = async (req,res)=>
 {
+    // validation on Registeration
+    const errors = validationResult(req);
+    console.log(errors);
+    if (!errors.isEmpty())
+    {
+        console.log(errors);
+        return res.status(403).json(errors);
+    }
+
     const {username,password} = req.body;
     
     // checking user already exist

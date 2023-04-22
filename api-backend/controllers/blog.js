@@ -42,7 +42,6 @@ const doAccessAllPosts = async(req,res)=>
 {
     // // checking token or verifying user
     const token = req.header('token');
-    console.log("token" +token);
     if(!token)
     {
         return res.status(401).send("unauthorized token");  

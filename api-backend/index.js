@@ -16,14 +16,17 @@ app.use(express.json());
 
 //image route
 app.use('/uploads',express.static(__dirname +'/uploads'));
+
 // login and register route
 app.use('/api/v1/auth', authroute);
-// post route
+
+// Blogs route
 app.use('/api/v1/blog', blogroute);
+
+// Error Handle route
 app.use(errorHandlerMiddleware);
 
-console.log(process.env.PORT);
-
+// connecting with database
 const start = async ()=>
 {
     try
