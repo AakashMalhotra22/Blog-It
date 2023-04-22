@@ -18,7 +18,7 @@ const doCreatePost = async (req,res)=>
     const token = req.header('token');
     if(!token)
     {
-        res.status(401).send("unauthorized token");  
+        return res.status(401).send("unauthorized token");  
     }
 
     const data = jwt.verify(token,process.env.JWT_SECRET);
@@ -40,13 +40,14 @@ const doCreatePost = async (req,res)=>
 
 const doAccessAllPosts = async(req,res)=>
 {
-    // checking token or verifying user
+    // // checking token or verifying user
     const token = req.header('token');
+    console.log("token" +token);
     if(!token)
     {
-        res.status(401).send("unauthorized token");  
+        return res.status(401).send("unauthorized token");  
     }
-    jwt.verify(token,process.env.JWT_SECRET);
+    const data = jwt.verify(token,process.env.JWT_SECRET);
 
     // asccessing all post according to recent time with a limit of 20
     const allposts = await Post.find()
@@ -84,7 +85,7 @@ const doUpdatePost = async(req,res)=>
     const token = req.header('token');
     if(!token)
     {
-        res.status(401).send("unauthorized token");  
+        return res.status(401).send("unauthorized token");  
     }
     const data = jwt.verify(token,process.env.JWT_SECRET);
 

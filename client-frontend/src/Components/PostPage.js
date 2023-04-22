@@ -14,24 +14,9 @@ export default function PostPage()
     useEffect(() => {
 
         const singlePost = async () => {
-            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,
-            {
-                headers:
-                {
-                        'token': localStorage.getItem('token')
-                },
-            })
+            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`)
             let post = await response.json();
-            if(response.ok)
-            {
-                setPostInfo(post);
-            }
-            else
-            {
-                navigate("/login");
-            }
-            
-            
+            setPostInfo(post);
         }
         singlePost();
     }, []);
