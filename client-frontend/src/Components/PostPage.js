@@ -84,7 +84,7 @@ export default function PostPage()
                         <button> Edit Post</button>
                     </Link>
         
-                    <button className="edit-btn" onClick={deletepost}> Delete Post</button>
+                    <button className="del-btn" onClick={deletepost}> Delete Post</button>
                     
                 </div>
             )}

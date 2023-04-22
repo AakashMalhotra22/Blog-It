@@ -25,6 +25,16 @@ header{
 header a{
   text-decoration:none;
   color: inherit;
+  z-index: 1;
+  border: 1px solid white;
+  padding: .35rem;
+}
+header a:hover{
+  border: 1px solid white;
+  background-color: black;
+  color: white;
+  border-radius: .35rem;
+  padding: .35rem;
 }
 header a.logo{
   font-weight: bold;
@@ -108,7 +118,7 @@ div.post-page div.image{
   overflow:hidden;
 }
 div.post-page div.image img{
-  object-fit: cover;
+  object-fit: scale-down;
   object-position: center center;
   width: 100%;
 }
@@ -143,6 +153,14 @@ div.content li{
 div.edit-row{
   text-align: center;
   margin-bottom: 20px;
+  display: flex;
+  flex-wrap: ;
+  justify-content: center;
+  align-items: center;
+}
+.del-btn{
+  display: inline-block;
+  width: 100px;
 }
 div.post-page a.edit-btn{
   background-color: #333;
@@ -150,7 +168,6 @@ div.post-page a.edit-btn{
   align-items: center;
   gap: 5px;
   color: #fff;
-  padding:10px 10px;
   border-radius: 0.35rem;
   text-decoration: none;
 }

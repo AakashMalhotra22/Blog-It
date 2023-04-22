@@ -22,22 +22,13 @@ const IndexPage = ()=>
                     'token': localStorage.getItem('token')
                 },
             })
-            // user is not authorized, navigate to login page
-            if(response.status === 401)
-            {
-                alert("Unauthorized Access: Login Again");
-                localStorage.removeItem('token');
-                navigate("/login")
-            }
-            else if(response.ok)
+            if(response.ok)
             {
                 let post = await response.json();
                 setPosts(post);
             }
-            // other errors
             else
             {
-                alert("Server Issue");
                 setUserInfo(null);
                 navigate("/login");
             }

@@ -8,7 +8,7 @@ const LoginPage = () => {
   const[username, setusername] = useState('');
   const [password,setpassword] = useState('');
 
-  const {setUserInfo} = useContext(UserContext);
+  const {userInfo, setUserInfo} = useContext(UserContext);
 
   const fn1 = (event)=>
   {
@@ -38,6 +38,7 @@ const LoginPage = () => {
         setUserInfo({'token': localStorage.getItem('token'), 'id': json.id});
         navigate("/");
       }
+      console.log(userInfo);
   }
 
 

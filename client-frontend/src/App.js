@@ -12,7 +12,7 @@ import PostPage from './Components/PostPage';
 import EditPost from './Components/EditPost';
 
 function App() {
-  const [userInfo, setUserInfo] = useState({});
+  const [userInfo, setUserInfo] = useState(null);
   return (
     <>
       <BrowserRouter>
