@@ -5,15 +5,6 @@ const { validationResult } = require('express-validator');
 
 const doRegister = async (req,res)=>
 {
-    // validation on Registeration
-    const errors = validationResult(req);
-    console.log(errors);
-    if (!errors.isEmpty())
-    {
-        console.log(errors);
-        return res.status(403).json(errors);
-    }
-
     const {username,password} = req.body;
     
     // checking user already exist
@@ -34,7 +25,7 @@ const doRegister = async (req,res)=>
           password: secPass,
     })
 
-    res.json({"message":"Registration Successful", "details":req.body, "Encrypted password": secPass});
+    res.json({"msg":"Registration Successful", "details":req.body, "Encrypted password": secPass});
 }
 
 const doLogin = async (req,res)=>
