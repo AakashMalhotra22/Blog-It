@@ -15,7 +15,12 @@ const EditPost = () =>
     useEffect(() => {
         
         const fn = async()=>{
-            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`);
+            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,{
+              headers:
+              {
+                  'token': localStorage.getItem('token')
+              },
+            });
             let postInfo = await response.json();
             setTitle(postInfo.title);
             setContent(postInfo.content);
@@ -46,14 +51,23 @@ const EditPost = () =>
                         'token': localStorage.getItem('token')
                     },
               });
-              const json = await response.json();
+              const json   = await response.json();
               if (response.ok) {
                 navigate(`/post/${id}`)
               }  
+              // validation errors.
               else if(response.status ===403 || response.status === 404 || response.status ===500)
               {
                     alert(json.msg);
               }
+              // user is not authorized, navigate to login page
+              else if(response.status === 401)
+              {
+                  alert("Unauthorized Access: Login Again");
+                  localStorage.removeItem('token');
+                  navigate("/login")
+              }
+              
       }
       
     return(

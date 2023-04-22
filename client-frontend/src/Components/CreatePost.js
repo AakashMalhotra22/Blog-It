@@ -38,7 +38,7 @@ const CreatePost = ()=>{
                localStorage.removeItem('token');
                navigate("/login")
         }
-        // validation errors
+        // validation errors or other errors
         else if(response.status ===403 || response.status === 404 || response.status ===500)
         {
              alert(json.msg);

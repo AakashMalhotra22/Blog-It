@@ -14,9 +14,25 @@ export default function PostPage()
     useEffect(() => {
 
         const singlePost = async () => {
-            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`)
+            let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,
+            {
+                headers:
+                {
+                    'token': localStorage.getItem('token')
+                }
+            })
             let post = await response.json();
-            setPostInfo(post);
+            // user is not authorized, navigate to login page
+            if(response.status === 401)
+            {
+                alert("Unauthorized Access: Login Again");
+                localStorage.removeItem('token');
+                navigate("/login")
+            }
+            else if(response.ok)
+            {
+                setPostInfo(post);
+            }
         }
         singlePost();
     }, []);
@@ -30,11 +46,23 @@ export default function PostPage()
         {
             let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,
             {
-                method: 'DELETE'
+                method: 'DELETE',
+                headers:
+                {
+                    'token': localStorage.getItem('token')
+                }
             })
             let deleteMessage = await response.json();
-            console.log(deleteMessage);
-            navigate("/");
+            if(response.status === 401)
+            {
+                alert("Unauthorized Access: Login Again");
+                localStorage.removeItem('token');
+                navigate("/login")
+            }
+            else if(response.ok)
+            {
+                navigate("/");
+            }
         }
         fn();
         
