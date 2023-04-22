@@ -30,7 +30,8 @@ const Header = ()=>
             <nav>
                 {userInfo && (
                     <>
-                    <Link to="/create">create new post</Link>
+                    <Link to="/">Home</Link>
+                    <Link to="/create">Post</Link>
                     <a onClick={logout}>Logout</a>
                     </>
                 )}
