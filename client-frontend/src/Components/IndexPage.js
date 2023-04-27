@@ -29,7 +29,7 @@ const IndexPage = ()=>
             }
             else
             {
-                setUserInfo(null);
+                // setUserInfo(null);
                 navigate("/login");
             }
         }

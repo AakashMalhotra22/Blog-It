@@ -23,6 +23,8 @@ const Post = (props) => {
             <time>{formatISO9075(new Date(props.createdAt))}</time>
           </p>
           <p className="summary">{props.summary}</p>
+          <button>Like</button>
+          <Link to={`/post/${props.id}`}><button>View Post</button></Link>
         </div>
       </div>
     </>

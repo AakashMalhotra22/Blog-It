@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken');
 const authenticateUser = (req,res,next)=>
 {
     const token = req.header('token');
-    console.log("hello"+token);
     if(!token)
     {
         return res.status(401).json({"msg": "unauthorized token"});  

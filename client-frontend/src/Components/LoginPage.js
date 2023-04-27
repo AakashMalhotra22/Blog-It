@@ -35,6 +35,7 @@ const LoginPage = () => {
       else
       {
         localStorage.setItem('token',json.token);
+        localStorage.setItem('id', json.id); // line 1
         setUserInfo({'token': localStorage.getItem('token'), 'id': json.id});
         navigate("/");
       }
