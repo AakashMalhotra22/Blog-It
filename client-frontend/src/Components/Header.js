@@ -22,12 +22,6 @@ const Header = ()=>
             setUserInfo({'token': token, 'id': id});
             console.log(userInfo);
           }
-        
-        // console.log("userInfo is"+ userInfo);
-        // if(userInfo == null)
-        // {
-            
-        // }
     },[])
 
     // logout function
@@ -48,9 +42,9 @@ const Header = ()=>
                     <>
                     <Link to="/">Home</Link>
                     <Link to="/popularpost">Popular Post</Link>
-                    <input placeholder = "search" type = "text" />
+                    <input id='nav-input' placeholder = "search" type = "text" />
                     <Link to="/create">Add Post</Link>
-                    <Link to="/profile">My Profile</Link>
+                    <Link to={`/${userInfo.id}`}>My Profile</Link>
                     <a onClick={logout}>Logout</a>
                     </>
                 )}

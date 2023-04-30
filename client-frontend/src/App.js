@@ -12,6 +12,8 @@ import PostPage from './Components/PostPage';
 import EditPost from './Components/EditPost';
 import Profile from './Components/Profile';
 import PopularPost from './Components/PopularPost';
+import EditProfile from './Components/EditProfile';
+import UpdatePassword from './Components/UpdatePassword';
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -27,7 +29,9 @@ function App() {
               <Route path="/create" element={<CreatePost />} />
               <Route path="/post/:id" element={<PostPage />} />
               <Route path="/edit/:id" element={<EditPost />} />
-              <Route path="/profile" element = {<Profile/>} />
+              <Route path="/:id" element = {<Profile/>} />
+              <Route path="/editprofile/:id" element = {<EditProfile/>} />
+              <Route path="/updatePassword/:id" element = {<UpdatePassword/>} />
               <Route path="/popularpost" element = {<PopularPost/>} />
             </Route>
           </Routes>

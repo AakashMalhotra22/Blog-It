@@ -5,14 +5,14 @@ import { UserContext } from '../context/usercontext';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const[username, setusername] = useState('');
+  const[email, setemail] = useState('');
   const [password,setpassword] = useState('');
 
   const {userInfo, setUserInfo} = useContext(UserContext);
 
   const fn1 = (event)=>
   {
-      setusername(event.target.value);
+      setemail(event.target.value);
   }
   const fn2 = (event)=>
   {
@@ -23,7 +23,7 @@ const LoginPage = () => {
       event.preventDefault();
       let response = await fetch('http://127.0.0.1:5000/api/v1/auth/login',{
           method: 'POST',
-          body: JSON.stringify({username,password}),
+          body: JSON.stringify({email,password}),
           headers:{'Content-Type':'application/json'},
       })
       const json = await response.json();
@@ -35,7 +35,7 @@ const LoginPage = () => {
       else
       {
         localStorage.setItem('token',json.token);
-        localStorage.setItem('id', json.id); // line 1
+        localStorage.setItem('id', json.id);
         setUserInfo({'token': localStorage.getItem('token'), 'id': json.id});
         navigate("/");
       }
@@ -47,7 +47,7 @@ const LoginPage = () => {
     <>
     <form className="login" onSubmit ={login}>
         <h1>Login</h1>
-        <input type = "text" placeholder = "username" onChange ={fn1}/>
+        <input type = "text" placeholder = "email" onChange ={fn1}/>
         <input type = "password" placeholder = "password" onChange = {fn2}/>
         <button>Login</button>
     </form>

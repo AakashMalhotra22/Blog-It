@@ -1,25 +1,22 @@
 const { check, validationResult } = require('express-validator');
 
 // Register validation
-const registerValidator = 
+const updateValidator = 
 [
     check('name').isLength({min:3}).withMessage('name should be of minimum 3 character'),
-    check('password').isLength({min:8}).withMessage('Password should be of minimum 8 character'),
-    check('email').isEmail().withMessage('Password should be of minimum 8 character')
-
 ]
 // Register validation result middleware
-const registerValidationMiddleware = (req,res,next)=>
+const updateValidationMiddleware = (req,res,next)=>
 {
     console.log("Success");
+    console.log("fire");
     const errors = validationResult(req);
     if (!errors.isEmpty())
     {
         const err = errors.array()[0].msg;
         return res.status(403).json({"msg": err});
     }
-    console.log("hi");
     next();
 }
 
-module.exports ={registerValidator,registerValidationMiddleware};
+module.exports ={updateValidator,updateValidationMiddleware};

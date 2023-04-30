@@ -5,24 +5,35 @@ import { useNavigate } from 'react-router-dom';
 
 const RegisterPage = ()=>{
     const navigate = useNavigate();
-    const[username, setusername] = useState('');
+    
+    const [name,setname] = useState('');
+    const[email, setemail] = useState('');
     const [password,setpassword] = useState('');
+    const [cpassword,setcpassword] = useState('');
+    const [files, setFiles] = useState('');
 
-    const fn1 = (event)=>
-    {
-        setusername(event.target.value);
-    }
-    const fn2 = (event)=>
-    {
-        setpassword(event.target.value);
-    }
     const register = async (event)=>
      {
         event.preventDefault();
+        if(cpassword != password)
+        {
+            alert("Password and confirm Password does not Match");
+            return;
+        }
+        const data = new FormData();
+        data.set('name', name);
+        data.set('email', email);
+        data.set('password', password);
+        data.set('file', files[0]);
+
+        // console.log(data.file);
+
+        console.log(files[0]);
         let response = await fetch('http://127.0.0.1:5000/api/v1/auth/register',{
             method: 'POST',
-            body: JSON.stringify({username,password}),
-            headers:{'Content-Type':'application/json'},
+            body: data
+            // body: JSON.stringify({name,email,password,file: files[0]}),
+            // headers:{'Content-Type':'application/json'},
         })
         const json = await response.json();
         alert(json.msg);
@@ -36,8 +47,11 @@ const RegisterPage = ()=>{
         <>
             <form className ="register" onSubmit={register}>
                 <h1>Register</h1>
-                <input type = "text" placeholder = "username" onChange={fn1}/>
-                <input type = "password" placeholder = "password" onChange={fn2}/>
+                <input type = "text" placeholder = "Name" onChange={ev=> setname(ev.target.value)}/>
+                <input type = "text" placeholder = "Email" onChange={ev=> setemail(ev.target.value)}/>
+                <input type="file" name = "add Photo" onChange={ev => setFiles(ev.target.files)} />
+                <input type = "password" placeholder = "Password" onChange={ev=> setpassword(ev.target.value)}/>
+                <input type = "password" placeholder = "Confirm password" onChange={ev=> setcpassword(ev.target.value)}/>
                 <button>Register</button>
             </form>
         </>

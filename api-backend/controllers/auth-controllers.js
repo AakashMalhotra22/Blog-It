@@ -1,41 +1,62 @@
 const User = require('../models/users');
 const bcrypt  = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const fs = require('fs'); 
 
 const doRegister = async (req,res)=>
 {
-    const {username,password} = req.body;
+    // storing file with the extension in uploads
+    // console.log(req.file);
+    console.log(req.body);
+    const {originalname,path} = req.file;
+    console.log(originalname);
     
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+
+    const newPath = path+'.'+ext;
+    fs.renameSync(path, newPath);
+    console.log("new"+newPath);
+    
+
+    const {name,password, email} = req.body;
+    console.log(name);
+
     // checking user already exist
-    let user = await User.findOne({username:req.body.username});
+    let user = await User.findOne({email:req.body.email});
     if(user)
     {
         return res.status(400).json({'msg':"username already exist"});
     }
+    console.log(password);
+    
 
-    // encrypting the password
+     // encrypting the password
     const salt = await bcrypt.genSalt(10);
     const secPass = await bcrypt.hash(password,salt);
 
     // creating user
     user = await User.create(
     {
-          username: username,
+          name,
           password: secPass,
+          email,
+          photo: newPath,
     })
+    console.log("final");
 
     res.json({"msg":"Registration Successful", "details":req.body});
 }
 
 const doLogin = async (req,res)=>
 {
-    const {username,password} = req.body;
+    const {email,password} = req.body;
     
     // checking user existence
-    let user = await User.findOne({username:req.body.username});
+    let user = await User.findOne({email:req.body.email});
     if(!user)
     {
-        return res.status(400).json({'msg':"username doesnot exist"});
+        return res.status(400).json({'msg':"user with this email doesnot exist"});
     }
 
     // decrypting the password
@@ -46,8 +67,48 @@ const doLogin = async (req,res)=>
     }
 
     //creating token
-    const authtoken = jwt.sign({username,id:user._id},process.env.JWT_SECRET);
+    const authtoken = jwt.sign({email,id:user._id},process.env.JWT_SECRET);
 
     res.json({"message":"Login Successful", "details":req.body,"token": authtoken, "id": user._id});
 }
-module.exports = {doRegister,doLogin};
+
+const doProfile = async (req,res)=>
+{
+    const {id} = req.params;
+
+    let singleUser = await User.findById(id);
+    console.log(singleUser);
+    res.json(singleUser);
+}
+
+const doUpdate = async (req,res)=>
+{
+    const {id} = req.params;
+
+    const {originalname,path} = req.file;
+    console.log(originalname);
+    
+    const parts = originalname.split('.');
+    const ext = parts[parts.length - 1];
+
+    const newPath1 = path+'.'+ext;
+    fs.renameSync(path, newPath1);
+
+    const filter = {_id : id};
+    const {name} = req.body;
+
+    const upd = 
+    {
+        name
+    }
+    if(newPath1)
+    {
+        upd.photo = newPath1
+    }
+    const userdata = await User.findOneAndUpdate(filter,upd, {new:true})
+    res.json({"msg":"Profile Updated", userdata});
+}
+
+
+
+module.exports = {doRegister,doLogin, doProfile, doUpdate};

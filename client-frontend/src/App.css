@@ -94,6 +94,10 @@ input{
   border-radius: 5px;
   background-color: #fff;
 }
+
+#nav-input{
+  width: 15rem;
+}
 button{
   cursor: pointer;
   width: 100%;
@@ -172,5 +176,20 @@ div.post-page a.edit-btn{
   text-decoration: none;
 }
 .edit-btn{
+  margin: 10px;
+}
+.button-sec{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: left;
+  align-items: center;
+}
+.b1{
+  width: 20%;
+  margin: 10px 10px 10px 0px;
+}
+
+.b2{
+  width: 20%;
   margin: 10px;
 }

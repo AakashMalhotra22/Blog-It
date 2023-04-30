@@ -76,9 +76,9 @@ export default function PostPage()
 
             <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
 
-            <div className="author">by @{postInfo.author}</div>
+            <div className="author">by @{postInfo.authorId.name}</div>
 
-            {userInfo.id === postInfo.authorId && (
+            {userInfo.id === postInfo.authorId._id && (
                 <div className="edit-row">
                     <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
                         <button> Edit Post</button>

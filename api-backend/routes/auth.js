@@ -1,10 +1,35 @@
 const express = require('express');
 const router = express.Router();
-const {doRegister, doLogin} = require('../controllers/auth-controllers');
+const multer = require('multer');
+
+const {doRegister, doLogin, doProfile, doUpdate} = require('../controllers/auth-controllers');
 const { registerValidator, registerValidationMiddleware } = require('../middleware/registerUserValidator');
+const { validateProfilePhoto } = require('../middleware/validateProfilePhoto');
+const authenticateUser = require('../middleware/userAuthenticationMiddleware');
+const { validateUpdateProfilePhoto } = require('../middleware/ValidateUpdateProfilePhoto');
+const { updateValidator, updateValidationMiddleware } = require('../middleware/updateUserValidator');
+// const sendmail = require('../controllers/send-controllers');
+const uploadMiddleware = multer({dest: 'uploads/'}); 
 
+const fn =(req,res,next)=>
+{
+    console.log(req.body);
+    console.log("enter");
+    console.log(req.body);
+    next();
+}
 
-router.route('/register').post(registerValidator,registerValidationMiddleware, doRegister);
+const fn1 =(req,res,next)=>
+{
+    console.log("hello aakash");
+    next();
+}
+
+router.route('/register').post(uploadMiddleware.single('file'),validateProfilePhoto,registerValidator, registerValidationMiddleware,fn,doRegister);
 router.route('/login').post(doLogin);
+router.route('/:id').get(authenticateUser,doProfile);
+router.route('/update/:id').post(uploadMiddleware.single('file'),validateUpdateProfilePhoto,fn1,
+updateValidator, updateValidationMiddleware, doUpdate);
 
 module.exports = router;
+ 
