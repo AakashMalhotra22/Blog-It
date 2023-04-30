@@ -10,13 +10,21 @@ const {doCreatePost,
        doAccessAllPosts,
        doSinglePost,
        doDeletePost,
-       doUpdatePost} = require('../controllers/blog-controllers');
+       doUpdatePost,
+       doAllPostUser} = require('../controllers/blog-controllers');
 
-
+// add post
 router.route('/post').post(authenticateUser ,uploadMiddleware.single('file')
 ,validateCreatePost, doCreatePost);
+// access all post
 router.route('/allposts').get(authenticateUser,doAccessAllPosts);
+// access single post with given id and delete post with id
 router.route('/post/:id').get(authenticateUser, doSinglePost).delete(authenticateUser, doDeletePost);
+
+// access allpost of a user with given user id
+router.route('/allposts/:id').get(doAllPostUser);
+
+// update a post 
 router.route('/updatepost').put(authenticateUser, uploadMiddleware.single('file'),validateEditPost, doUpdatePost);
 
 module.exports = router;

@@ -59,6 +59,18 @@ const doDeletePost = async(req,res)=>
     res.json(singlePost);
 }
 
+const doAllPostUser = async(req,res)=>
+{   
+    const {id} = req.params;
+    let Posts = await Post.find({authorId: id})
+    .populate('authorId')
+    .sort({createdAt:-1})
+    .limit(20);
+
+    console.log(Posts);
+    res.json(Posts);
+}
+
 // Updating Blog function
 const doUpdatePost = async(req,res)=>
 {
@@ -89,4 +101,4 @@ const doUpdatePost = async(req,res)=>
     res.json(postData);
 }
 
-module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost};
+module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost, doAllPostUser};

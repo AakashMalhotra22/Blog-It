@@ -8,9 +8,7 @@ const Post = (props) => {
   const {userInfo} = useContext(UserContext);  
 
   useEffect(()=>{
-    // console.log(props.authorId);
-    // console.log(props.authorId.email);
-    // console.log(props.authorId.name);
+    console.log("welcome");
   },[]);
   return (
     <>

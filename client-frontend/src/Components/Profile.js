@@ -54,6 +54,7 @@ const Profile = () => {
                     </Link>
                 </div>
             )}
+            <Link className="" to={`/allPost/${id}`}> <button> ALL Post</button> </Link>
 
 
         </div>
