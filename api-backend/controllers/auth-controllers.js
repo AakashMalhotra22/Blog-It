@@ -83,17 +83,22 @@ const doProfile = async (req,res)=>
 
 const doUpdate = async (req,res)=>
 {
+    console.log("aa0");
     const {id} = req.params;
 
-    const {originalname,path} = req.file;
-    console.log(originalname);
+    let newPath1;
+    if (req.file) 
+    {
+        const {originalname,path} = req.file;
+        console.log("hi"+originalname);
+        
+        const parts = originalname.split('.');
+        const ext = parts[parts.length - 1];
+
+        newPath1 = path+'.'+ext;
+        fs.renameSync(path, newPath1);
+    }
     
-    const parts = originalname.split('.');
-    const ext = parts[parts.length - 1];
-
-    const newPath1 = path+'.'+ext;
-    fs.renameSync(path, newPath1);
-
     const filter = {_id : id};
     const {name} = req.body;
 
@@ -109,6 +114,34 @@ const doUpdate = async (req,res)=>
     res.json({"msg":"Profile Updated", userdata});
 }
 
+const doUpdatePass = async (req,res)=>
+{
+    const {id} = req.params;
+    const {oldpassword, password} = req.body;
+    
+    console.log("welcome");
+
+    // checking user existence
+    let user = await User.findById(id);
+    // decrypting the password
+    const passwordCompare = await bcrypt.compare(oldpassword,user.password);
+    if(!passwordCompare)
+    {
+        return res.status(400).json({'msg':"Old password is wrong"});
+    }
+
+     // encrypting the password
+     const salt = await bcrypt.genSalt(10);
+     const secPass = await bcrypt.hash(password,salt);
+
+    const filter = {_id : id};
+    const upd = 
+    {
+        password: secPass
+    }
+    const userdata = await User.findOneAndUpdate(filter,upd, {new:true})
+    res.json({"msg":"Password Updated",userdata});
+}
 
 
-module.exports = {doRegister,doLogin, doProfile, doUpdate};
+module.exports = {doRegister,doLogin, doProfile, doUpdate,doUpdatePass};
