@@ -1,4 +1,5 @@
 const User = require('../models/users');
+const Post = require('../models/Post');
 const bcrypt  = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fs = require('fs'); 
@@ -69,7 +70,7 @@ const doLogin = async (req,res)=>
     //creating token
     const authtoken = jwt.sign({email,id:user._id},process.env.JWT_SECRET);
 
-    res.json({"message":"Login Successful", "details":req.body,"token": authtoken, "id": user._id});
+    res.json({"message":"Login Successful", "details":req.body,"token": authtoken, "id": user._id, "user":user});
 }
 
 const doProfile = async (req,res)=>
@@ -143,5 +144,48 @@ const doUpdatePass = async (req,res)=>
     res.json({"msg":"Password Updated",userdata});
 }
 
+const doSavePost = async (req,res)=>{
+    const {postId, userId} = req.body;
+    let user = await User.findById(userId);
+    let savedPost = user.savedPost;
 
-module.exports = {doRegister,doLogin, doProfile, doUpdate,doUpdatePass};
+    let result;
+    if(savedPost.includes(postId))
+    {
+        console.log("hello");
+        try{
+            result = await User.updateOne({ _id: userId },
+            { $pull: { savedPost: { $in: [postId] } } } )
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    else
+    {   
+        try
+        {
+            result = await User.updateOne({ _id: userId },
+            { $push: { savedPost: postId } } )
+        }
+        catch(err){
+            console.log(err);
+        }
+    }
+    let singleuser = await User.findById(userId);
+    res.json({result, singleuser, savedPost, postId,userId});
+}
+
+const doAllSavePost = async (req,res)=>{
+    const {id} = req.params;
+    
+    let singleUser = await User.findById(id);
+    let savedPost = singleUser.savedPost;
+    
+    let allsavedPost = await Post.find({_id: { $in: savedPost }} )
+    .populate('authorId');
+    res.json(allsavedPost);
+
+}
+
+module.exports = {doRegister,doLogin, doProfile, doUpdate,doUpdatePass,doSavePost, doAllSavePost};

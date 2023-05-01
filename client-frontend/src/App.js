@@ -15,6 +15,7 @@ import PopularPost from './Components/PopularPost';
 import EditProfile from './Components/EditProfile';
 import UpdatePassword from './Components/UpdatePassword';
 import AllPostUser from './Components/AllPostUser';
+import SavedPosts from './Components/SavedPosts';
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
@@ -35,6 +36,7 @@ function App() {
               <Route path="/updatePassword/:id" element = {<UpdatePassword/>} />
               <Route path="/popularpost" element = {<PopularPost/>} />
               <Route path="/allpost/:id" element={<AllPostUser/>} />
+              <Route path="/savedPosts/:id" element = {<SavedPosts/>} />
             </Route>
           </Routes>
         </UserContext.Provider>

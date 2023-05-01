@@ -11,7 +11,8 @@ const Header = ()=>
     {
           const token = localStorage.getItem('token');
           const id = localStorage.getItem('id');
-          console.log("token"+token);
+          const savedPost = localStorage.getItem('savedPost');
+          console.log("header"+savedPost);
           if(token==null)
           {
             setUserInfo(null);
@@ -19,7 +20,7 @@ const Header = ()=>
           }
           else 
           {
-            setUserInfo({'token': token, 'id': id});
+            setUserInfo({'token': token, 'id': id, 'savedPost': savedPost});
             console.log(userInfo);
           }
     },[])
@@ -28,7 +29,8 @@ const Header = ()=>
     const logout =()=>
     {
         localStorage.removeItem('token');
-        localStorage.removeItem('id'); //line 2
+        localStorage.removeItem('id');
+        localStorage.removeItem('savedPost');
         setUserInfo(null);
         navigate('/login');
     }
@@ -42,7 +44,6 @@ const Header = ()=>
                     <>
                     <Link to="/">Home</Link>
                     <Link to="/popularpost">Popular Post</Link>
-                    <input id='nav-input' placeholder = "search" type = "text" />
                     <Link to="/create">Add Post</Link>
                     <Link to={`/${userInfo.id}`}>My Profile</Link>
                     <a onClick={logout}>Logout</a>

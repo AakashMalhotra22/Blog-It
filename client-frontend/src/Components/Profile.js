@@ -27,8 +27,8 @@ const Profile = () => {
           }
           else
           {
-              setUserInfo(null);
-              navigate("/login");
+            //   setUserInfo(null);
+            //   navigate("/login");
           }
       }
       allposts();
@@ -52,9 +52,10 @@ const Profile = () => {
                     <Link className="" to={`/updatePassword/${id}`}>
                         <button> Change Password</button>
                     </Link>
+                    <Link className="" to={`/savedPosts/${userInfo.id}`}> <button> Saved Posts</button> </Link>
                 </div>
             )}
-            <Link className="" to={`/allPost/${id}`}> <button> ALL Post</button> </Link>
+            <Link className="" to={`/allPost/${id}`}> <button> User Post</button> </Link>
 
 
         </div>

@@ -8,6 +8,7 @@ const PostSchema = new Schema({
   cover:String,
   authorId:{type:Schema.Types.ObjectId, ref:'User'},
   interactions: {type: Array, default: []},
+  likeduser: {type: [String], default: []},
   likes: {type: Number, default: 0},
 }, {
   timestamps: true,

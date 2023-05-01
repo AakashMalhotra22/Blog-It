@@ -36,7 +36,10 @@ const LoginPage = () => {
       {
         localStorage.setItem('token',json.token);
         localStorage.setItem('id', json.id);
-        setUserInfo({'token': localStorage.getItem('token'), 'id': json.id});
+        localStorage.setItem('savedPost', json.user.savedPost);
+        console.log(json.user.savedPost);
+        console.log("hi"+localStorage.getItem('savedPost'));
+        setUserInfo({'token': localStorage.getItem('token'), 'id': json.id, 'savedPost':json.user.savedPost});
         navigate("/");
       }
       console.log(userInfo);

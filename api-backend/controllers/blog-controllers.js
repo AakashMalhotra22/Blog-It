@@ -101,4 +101,43 @@ const doUpdatePost = async(req,res)=>
     res.json(postData);
 }
 
-module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost, doAllPostUser};
+const doPopularPost = async(req,res)=>
+{
+    const allposts = await Post.find()
+    .populate('authorId')
+    .sort({likes:"desc", interactions: "desc",createdAt:-1})
+    .limit(20);
+    console.log(allposts);
+    res.json(allposts);
+}
+
+const doLikePost  = async(req,res)=>
+{
+    const {postId, userId} = req.body;
+    let post1 = await Post.findById(postId);
+    let likeduser = post1.likeduser;
+    let likes = post1.likes;
+
+    let result;
+    if(likeduser.includes(userId))
+    {
+        result = await Post.updateMany({ _id: postId },
+        {
+            $pull: { likeduser: { $in: [userId] } },                
+            $set: {likes: likes-1 }
+        })        
+    }
+    else
+    {   
+        result = await Post.updateMany(
+        { _id: postId },
+        {
+            $push: { likeduser: userId  },                
+            $set: {likes: likes+1 }
+        })
+    }
+     let post = await Post.findById(postId);
+    res.json({result, likeduser,likes,post});
+}
+
+module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost, doAllPostUser,doPopularPost, doLikePost};

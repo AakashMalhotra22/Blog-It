@@ -45,7 +45,7 @@ const AllPostUser = () =>
             {
                 return <Post key = {post._id} title ={post.title} summary = {post.summary} 
                 content = {post.content} cover = {post.cover} createdAt = {post.createdAt} 
-                authorId ={post.authorId} id ={post._id}/>
+                authorId ={post.authorId} id ={post._id} likes = {post.likes} likeduser = {post.likeduser}/>
             })}
         </>
     )
