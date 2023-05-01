@@ -78,6 +78,7 @@ export default function PostPage()
             <time>{formatISO9075(new Date(postInfo.createdAt))}</time>
 
             <div className="author">by @{postInfo.authorId.name}</div>
+            <div className="author">Likes {postInfo.likes}</div>
 
             {userInfo.id === postInfo.authorId._id && (
                 <div className="edit-row">
@@ -93,7 +94,7 @@ export default function PostPage()
                 <img src={`http://localhost:5000/${postInfo.cover}`} alt="" />
             </div>
             <div className="content" dangerouslySetInnerHTML={{ __html: postInfo.content }} />
-            <InteractionSection/>
+            <InteractionSection id ={id} authorId ={postInfo.authorId._id}/>
         </div>
     );
 }

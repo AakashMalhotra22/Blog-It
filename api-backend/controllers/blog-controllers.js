@@ -166,5 +166,30 @@ const doSavePost  = async(req,res)=>
     let post = await Post.findById(postId);
     res.json({result, savedPost,post});
 }
+// all comments
+const doAccessComments = async (req,res)=>{
+    const {id} = req.params;
+    let post = await Post.findById(id);
 
-module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost, doAllPostUser,doPopularPost, doLikePost,doSavePost};
+    res.json(post.interactions);
+}
+const doAddComment = async (req,res)=>{
+    const {id} = req.params;
+    const {comment, username, userId} = req.body;
+
+    const element = {comment,username, userId};    
+    
+
+    result = await Post.updateOne(
+    { _id: id },
+    {
+        $push: { interactions: element},
+    })
+
+    let post = await Post.findById(id);
+    res.json(post.interactions);
+}
+
+
+module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost,
+     doAllPostUser,doPopularPost, doLikePost,doSavePost, doAccessComments, doAddComment};
