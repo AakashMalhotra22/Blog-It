@@ -100,7 +100,7 @@ const doUpdatePost = async(req,res)=>
     const postData = await Post.findOneAndUpdate(filter,upd, {new:true})
     res.json(postData);
 }
-
+// popular post
 const doPopularPost = async(req,res)=>
 {
     const allposts = await Post.find()
@@ -111,6 +111,7 @@ const doPopularPost = async(req,res)=>
     res.json(allposts);
 }
 
+// like a post
 const doLikePost  = async(req,res)=>
 {
     const {postId, userId} = req.body;
@@ -139,5 +140,31 @@ const doLikePost  = async(req,res)=>
      let post = await Post.findById(postId);
     res.json({result, likeduser,likes,post});
 }
+// save a Post
+const doSavePost  = async(req,res)=>
+{
+    const {postId, userId} = req.body;
+    let post1 = await Post.findById(postId);
+    let savedPost = post1.savedPost;
 
-module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost, doAllPostUser,doPopularPost, doLikePost};
+    let result;
+    if(savedPost.includes(userId))
+    {
+        result = await Post.updateMany({ _id: postId },
+        {
+            $pull: { savedPost: { $in: [userId] } },
+        })        
+    }
+    else
+    {   
+        result = await Post.updateMany(
+        { _id: postId },
+        {
+            $push: { savedPost: userId  },
+        })
+    }
+    let post = await Post.findById(postId);
+    res.json({result, savedPost,post});
+}
+
+module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost, doAllPostUser,doPopularPost, doLikePost,doSavePost};

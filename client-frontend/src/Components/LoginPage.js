@@ -4,8 +4,9 @@ import {useNavigate} from 'react-router-dom';
 import { UserContext } from '../context/usercontext';
 
 const LoginPage = () => {
+  
   const navigate = useNavigate();
-  const[email, setemail] = useState('');
+  const [email, setemail] = useState('');
   const [password,setpassword] = useState('');
 
   const {userInfo, setUserInfo} = useContext(UserContext);
@@ -36,15 +37,10 @@ const LoginPage = () => {
       {
         localStorage.setItem('token',json.token);
         localStorage.setItem('id', json.id);
-        localStorage.setItem('savedPost', json.user.savedPost);
-        console.log(json.user.savedPost);
-        console.log("hi"+localStorage.getItem('savedPost'));
-        setUserInfo({'token': localStorage.getItem('token'), 'id': json.id, 'savedPost':json.user.savedPost});
+        setUserInfo({'token': localStorage.getItem('token'), 'id': json.id});
         navigate("/");
       }
-      console.log(userInfo);
   }
-
 
   return (
     <>

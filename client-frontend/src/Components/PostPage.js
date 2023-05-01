@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { formatISO9075 } from "date-fns";
 import { UserContext } from "../context/usercontext";
 import { Link, useNavigate } from 'react-router-dom';
+import InteractionSection from "./InteractionSection";
 
 export default function PostPage() 
 {
@@ -92,6 +93,7 @@ export default function PostPage()
                 <img src={`http://localhost:5000/${postInfo.cover}`} alt="" />
             </div>
             <div className="content" dangerouslySetInnerHTML={{ __html: postInfo.content }} />
+            <InteractionSection/>
         </div>
     );
 }

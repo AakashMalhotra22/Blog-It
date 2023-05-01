@@ -43,9 +43,7 @@ const AllPostUser = () =>
         <>
             {posts.length>0 && posts.map((post)=>
             {
-                return <Post key = {post._id} title ={post.title} summary = {post.summary} 
-                content = {post.content} cover = {post.cover} createdAt = {post.createdAt} 
-                authorId ={post.authorId} id ={post._id} likes = {post.likes} likeduser = {post.likeduser}/>
+                return <Post {...post}/>
             })}
         </>
     )

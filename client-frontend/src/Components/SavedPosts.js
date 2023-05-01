@@ -5,17 +5,17 @@ import Post from './Post';
 
 const SavedPosts = () => 
 {
-  const {id} = useParams();
   const navigate = useNavigate();
   const [posts, setPosts] = useState('');
   const {userInfo, setUserInfo} = useContext(UserContext);
 
+  let savedPost=[];
   useEffect( ()=>
   {
       //accessing savedPost
       const savePostfn = async()=>
       {
-          let response = await fetch(`http://127.0.0.1:5000/api/v1/auth/allsavedPost/${id}`,
+          let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/allposts`,
           {
               headers:
               {
@@ -33,16 +33,18 @@ const SavedPosts = () =>
               navigate("/login");
           }
       }
-      savePostfn();;
+      savePostfn();      
   },[]) 
-
+  console.log(posts);
   return(
     <>
             {posts.length>0 && posts.map((post)=>
             {
-                return <Post key = {post._id} title ={post.title} summary = {post.summary} 
-                content = {post.content} cover = {post.cover} createdAt = {post.createdAt} 
-                authorId ={post.authorId} id ={post._id} likes = {post.likes} likeduser = {post.likeduser}/>
+                if(post.savedPost.includes(userInfo.id))
+                {
+                    return <Post {...post}/>
+                }
+                
             })}
     </>
 )

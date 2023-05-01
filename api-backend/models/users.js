@@ -6,8 +6,6 @@ const UserSchema = new Schema({
     photo:{type:String},
     email:{type: String, required: true, unique: true},
     password:{type: String , required: true},
-    savedPost: {type: [String], default: []},
-    // likePost:{type: Array, default: []},
     likes: {type: Number, default: 0},
     interactions: {type: Number, default: 0}
 });

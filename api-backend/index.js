@@ -17,7 +17,7 @@ app.use(express.json());
 //image route
 app.use('/uploads',express.static(__dirname +'/uploads'));
 
-// login and register route
+// user route - login, register
 app.use('/api/v1/auth', authroute);
 
 // Blogs route

@@ -4,7 +4,7 @@ const multer = require('multer');
 const uploadMiddleware = multer({dest: 'uploads/'}); 
 const { validateCreatePost }  = require('../middleware/createPostValidator');
 const {validateEditPost} = require('../middleware/editPostValidator');
-const authenticateUser = require('../middleware/userAuthenticationMiddleware');
+const verifyToken = require('../middleware/verifyToken');
 
 const {doCreatePost, 
        doAccessAllPosts,
@@ -13,26 +13,33 @@ const {doCreatePost,
        doUpdatePost,
        doAllPostUser,
        doPopularPost,
-       doLikePost} = require('../controllers/blog-controllers');
+       doLikePost,
+       doSavePost} = require('../controllers/blog-controllers');
 
 // add post
-router.route('/post').post(authenticateUser ,uploadMiddleware.single('file')
+router.route('/post').post(verifyToken ,uploadMiddleware.single('file')
 ,validateCreatePost, doCreatePost);
+
 // access all post
-router.route('/allposts').get(authenticateUser,doAccessAllPosts);
-// access single post with given id and delete post with id
-router.route('/post/:id').get(authenticateUser, doSinglePost).delete(authenticateUser, doDeletePost);
+router.route('/allposts').get(verifyToken,doAccessAllPosts);
+
+// access single post with given id and delete post with given id
+router.route('/post/:id').get(verifyToken, doSinglePost).delete(verifyToken, doDeletePost);
 
 // access allpost of a user with given user id
 router.route('/allposts/:id').get(doAllPostUser);
 
 // popular post
 router.route('/popularpost').get(doPopularPost);
+
 // update a post 
-router.route('/updatepost').put(authenticateUser, uploadMiddleware.single('file'),validateEditPost, doUpdatePost);
+router.route('/updatepost').put(verifyToken, uploadMiddleware.single('file'),validateEditPost, doUpdatePost);
 
 // like a post
 router.route('/likepost').put(doLikePost);
+
+// save a Post
+router.route('/savePost').put(doSavePost);
 
 
 module.exports = router;
