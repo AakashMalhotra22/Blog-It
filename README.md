@@ -1,8 +1,9 @@
 # Blog-It
 
 1. A website that provides the feature of creating, deleting, updating and accessing Blogs.
-2. Basic functionalities like Login, Register.
-3. Authentication and Authorization.
+2. Basic functionalities like Login, Register, Like, Interaction Section, Saved Post
+3. Includes Popular Post section to get popular Post of all time.
+4. Includes Profile Section to access users profile and update profile and password.
 
 Tech Stack:
 1. React for frontend
