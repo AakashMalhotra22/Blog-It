@@ -46,7 +46,6 @@ const Header = ()=>
                     <Link to="/popularpost">Popular Post</Link>
                     <Link to="/create">Add Post</Link>
                     <Link to={`/${userInfo.id}`}>My Profile</Link>
-                    <Link to={`/${userInfo.id}`}>Notifications</Link>
                     <a onClick={logout}>Logout</a>
                     </>
                 )}

@@ -1,4 +1,5 @@
 const Post = require('../models/Post');
+const User = require('../models/users');
 const bcrypt  = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fs = require('fs'); 
@@ -55,8 +56,19 @@ const doSinglePost = async(req,res)=>
 const doDeletePost = async(req,res)=>
 {
     const {id} = req.params;
-    let singlePost = await Post.findByIdAndDelete(id);
-    res.json(singlePost);
+    let post = await Post.findByIdAndDelete(id);
+    let creator = post.authorId;
+    console.log(creator)
+
+    let user = await User.findById(creator);
+
+    await User.updateMany({ _id: creator },
+    {              
+         $set: {likes: user.likes-post.likes}
+    })
+    
+    res.json(post);
+
 }
 
 const doAllPostUser = async(req,res)=>
@@ -115,7 +127,11 @@ const doPopularPost = async(req,res)=>
 const doLikePost  = async(req,res)=>
 {
     const {postId, userId} = req.body;
-    let post1 = await Post.findById(postId);
+    let post1 = await Post.findById(postId).populate('authorId');
+    let creator = post1.authorId._id;
+    let creator_likes = post1.authorId.likes;
+    
+    // post details
     let likeduser = post1.likeduser;
     let likes = post1.likes;
 
@@ -125,7 +141,11 @@ const doLikePost  = async(req,res)=>
         result = await Post.updateMany({ _id: postId },
         {
             $pull: { likeduser: { $in: [userId] } },                
-            $set: {likes: likes-1 }
+            $set: {likes: likes-1}
+        })
+        await User.updateMany({ _id: creator },
+        {              
+            $set: {likes: creator_likes-1}
         })        
     }
     else
@@ -136,6 +156,12 @@ const doLikePost  = async(req,res)=>
             $push: { likeduser: userId  },                
             $set: {likes: likes+1 }
         })
+        await User.updateMany({ _id: creator },
+        {              
+            $set: {likes: creator_likes+1}
+        })
+       
+        
     }
      let post = await Post.findById(postId);
     res.json({result, likeduser,likes,post});

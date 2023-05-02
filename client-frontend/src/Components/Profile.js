@@ -38,7 +38,6 @@ const Profile = () => {
             <h1>{profile.name}</h1>
             <p>{profile.email}</p>
             <p>Total Likes {profile.likes}</p>
-            <p>Total Interactions {profile.interactions}</p>
 
             <div className="image">
                 <img src={`http://localhost:5000/${profile.photo}`} alt="" />

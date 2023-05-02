@@ -1,13 +1,15 @@
 Task:
+
 1. home page - 10 at a time and then load more functionality.
 2. popular post - top15
-3. Interaction section 
-4. delete and update in interaction (optional)
-5. Like and interaction count shows in user profile
-6. frontend css likebutton, nav bar, profile photo section, etc.
-7. notification section - like and comment notification (top 20) - also update mongodb for save space
+3. saavedPost
+
 8. registeration through email. (optional)
 9. forget password functionality (optional)
+
+6. frontend css likebutton, nav bar, profile photo section, etc.
+
+
 10. change backend function name to improve readibility.
 11. Improve overall readibility.
 
