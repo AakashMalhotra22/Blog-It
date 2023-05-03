@@ -8,6 +8,7 @@ var cors = require('cors');
 const connectDB = require('./db/connect');
 const authroute = require('./routes/auth');
 const blogroute = require('./routes/blog');
+const notificationroute = require('./routes/notification');
 const errorHandlerMiddleware = require('./middleware/errorhandler');
 
 // middleware
@@ -22,6 +23,9 @@ app.use('/api/v1/auth', authroute);
 
 // Blogs route
 app.use('/api/v1/blog', blogroute);
+
+//notification route
+app.use('/api/v1/notification', notificationroute);
 
 // Error Handle route
 app.use(errorHandlerMiddleware);

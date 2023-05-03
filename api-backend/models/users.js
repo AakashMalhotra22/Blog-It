@@ -7,6 +7,7 @@ const UserSchema = new Schema({
     email:{type: String, required: true, unique: true},
     password:{type: String , required: true},
     likes: {type: Number, default: 0},
+    notificationTime: { type: Date, default: Date.now()},
 });
 
 const UserModel = model('User',UserSchema);

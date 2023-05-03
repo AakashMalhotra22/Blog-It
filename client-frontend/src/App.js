@@ -16,9 +16,32 @@ import EditProfile from './Components/EditProfile';
 import UpdatePassword from './Components/UpdatePassword';
 import AllPostUser from './Components/AllPostUser';
 import SavedPosts from './Components/SavedPosts';
+import Notifications from './Components/Notifications';
+
+
+
 
 function App() {
   const [userInfo, setUserInfo] = useState(null);
+
+  useEffect(()=>
+    {
+          const token = localStorage.getItem('token');
+          const id = localStorage.getItem('id');
+          const name = localStorage.getItem('name');
+          
+          if(token==null)
+          {
+            setUserInfo(null);
+            // navigate('/login');
+          }
+          else 
+          {
+            setUserInfo({'token': token, 'id': id, 'name':name});
+            console.log(userInfo);
+          }
+    },[])
+
   return (
     <>
       <BrowserRouter>
@@ -37,6 +60,7 @@ function App() {
               <Route path="/popularpost" element = {<PopularPost/>} />
               <Route path="/allpost/:id" element={<AllPostUser/>} />
               <Route path="/savedPosts/:id" element = {<SavedPosts/>} />
+              <Route path="/notifications" element = {<Notifications/>} />
             </Route>
           </Routes>
         </UserContext.Provider>

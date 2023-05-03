@@ -1,8 +1,10 @@
 const Post = require('../models/Post');
 const User = require('../models/users');
+const Notification = require('../models/Notification');
 const bcrypt  = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fs = require('fs'); 
+
 
 // CreateBlog function
 const doCreatePost = async (req,res)=>
@@ -36,18 +38,25 @@ const doCreatePost = async (req,res)=>
 // Accessing all the Blogs function
 const doAccessAllPosts = async(req,res)=>
 {
-    // asccessing all post according to recent time with a limit of 20
-    const allposts = await Post.find()
+    const perPage =3;
+    const page = req.query.page || 1;
+    const lastItemTimestamp = req.query.lastItemTimestamp || Date.now();
+
+    const allposts = await Post.find({
+        createdAt: { $lt: lastItemTimestamp },
+      })
     .populate('authorId')
     .sort({createdAt:-1})
-    .limit(20);
+    .skip((perPage * page) - perPage)
+    .limit(perPage);
+
     res.json(allposts);
 }
 
 // Accessing single Blog function
 const doSinglePost = async(req,res)=>
 {   
-    const {id} = req.params;
+    const {id} = req.params; 
     let singlePost = await Post.findById(id).populate('authorId');
     res.json(singlePost);
 }
@@ -74,13 +83,19 @@ const doDeletePost = async(req,res)=>
 const doAllPostUser = async(req,res)=>
 {   
     const {id} = req.params;
-    let Posts = await Post.find({authorId: id})
-    .populate('authorId')
-    .sort({createdAt:-1})
-    .limit(20);
+    const perPage =3;
+    const page = req.query.page || 1;
+    const lastItemTimestamp = req.query.lastItemTimestamp || Date.now();
 
-    console.log(Posts);
+    const Posts = await Post.find({authorId: id,
+        createdAt: { $lt: lastItemTimestamp },
+      })
+    .populate('authorId')
+    .sort({likes:"desc", interactions: "desc",createdAt:-1})
+    .skip((perPage * page) - perPage)
+    .limit(perPage);
     res.json(Posts);
+
 }
 
 // Updating Blog function
@@ -115,11 +130,18 @@ const doUpdatePost = async(req,res)=>
 // popular post
 const doPopularPost = async(req,res)=>
 {
-    const allposts = await Post.find()
+    const perPage =3;
+    const page = req.query.page || 1;
+    const lastItemTimestamp = req.query.lastItemTimestamp || Date.now();
+
+    const allposts = await Post.find({
+        createdAt: { $lt: lastItemTimestamp },
+      })
     .populate('authorId')
     .sort({likes:"desc", interactions: "desc",createdAt:-1})
-    .limit(20);
-    console.log(allposts);
+    .skip((perPage * page) - perPage)
+    .limit(perPage);
+
     res.json(allposts);
 }
 
@@ -146,7 +168,7 @@ const doLikePost  = async(req,res)=>
         await User.updateMany({ _id: creator },
         {              
             $set: {likes: creator_likes-1}
-        })        
+        })
     }
     else
     {   
@@ -160,6 +182,23 @@ const doLikePost  = async(req,res)=>
         {              
             $set: {likes: creator_likes+1}
         })
+        // checking if notification is already send
+        const allnotifications = await Notification.find({
+            userId, postId, notification_type: "like",
+        })
+        console.log(allnotifications);
+        if (allnotifications.length==0)
+        {   
+            console.log("i");
+            //sending notification
+            const newNotification = await Notification.create({
+                notification_type: "like",
+                message: "",
+                userId,
+                postId,
+                authorId: post1.authorId._id
+            })        
+        }
        
         
     }
@@ -205,7 +244,6 @@ const doAddComment = async (req,res)=>{
 
     const element = {comment,username, userId};    
     
-
     result = await Post.updateOne(
     { _id: id },
     {
@@ -213,6 +251,16 @@ const doAddComment = async (req,res)=>{
     })
 
     let post = await Post.findById(id);
+
+    // sending notification
+    const newNotification = await Notification.create({
+        notification_type: "comment",
+        message: comment,
+        userId,
+        postId: id,
+        authorId: post.authorId._id
+    })
+
     res.json(post.interactions);
 }
 

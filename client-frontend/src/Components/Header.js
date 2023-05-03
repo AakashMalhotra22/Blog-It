@@ -7,23 +7,23 @@ const Header = ()=>
     const {userInfo, setUserInfo} = useContext(UserContext);   
     const navigate = useNavigate();
 
-    useEffect(()=>
-    {
-          const token = localStorage.getItem('token');
-          const id = localStorage.getItem('id');
-          const name = localStorage.getItem('name');
+    // useEffect(()=>
+    // {
+    //       const token = localStorage.getItem('token');
+    //       const id = localStorage.getItem('id');
+    //       const name = localStorage.getItem('name');
           
-          if(token==null)
-          {
-            setUserInfo(null);
-            navigate('/login');
-          }
-          else 
-          {
-            setUserInfo({'token': token, 'id': id, 'name':name});
-            console.log(userInfo);
-          }
-    },[])
+    //       if(token==null)
+    //       {
+    //         setUserInfo(null);
+    //         navigate('/login');
+    //       }
+    //       else 
+    //       {
+    //         setUserInfo({'token': token, 'id': id, 'name':name});
+    //         console.log(userInfo);
+    //       }
+    // },[])
 
     // logout function
     const logout =()=>
@@ -45,6 +45,7 @@ const Header = ()=>
                     <Link to="/">Home</Link>
                     <Link to="/popularpost">Popular Post</Link>
                     <Link to="/create">Add Post</Link>
+                    <Link to="/notifications">Notifications</Link>
                     <Link to={`/${userInfo.id}`}>My Profile</Link>
                     <a onClick={logout}>Logout</a>
                     </>
