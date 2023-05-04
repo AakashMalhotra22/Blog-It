@@ -51,12 +51,13 @@ const Profile = () => {
               <button> Change Password</button>
             </Link>
             <Link className="" to={`/savedPosts/${userInfo.id}`}>
-              <button> Saved Posts</button>
+              <button> Saved Blogs</button>
             </Link>
           </div>
         )}
         <Link className="" to={`/allPost/${id}`}>
-          <button> User Post</button>
+          {userInfo.id !=id && <button> User Blogs</button>}
+          {userInfo.id ==id && <button> Your Blogs</button>}
         </Link>
       </div>
     );

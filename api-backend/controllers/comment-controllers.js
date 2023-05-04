@@ -3,7 +3,13 @@ const Notification = require('../models/Notification');
 
 const doGetComments = async (req,res)=>{
     const {id} = req.params;
-    let comments = await Comment.find({postId: id});
+    const page = req.query.page || 1;
+    const perPage =6;
+
+    let comments = await Comment.find({postId: id})
+    .sort({createdAt:-1})
+    .skip((perPage * page) - perPage)
+    .limit(perPage);
 
     res.json(comments);
 }
@@ -28,9 +34,7 @@ const doAddComment = async (req,res)=>{
         postId: id,
         authorId,
     })
-    console.log(notification);
-
-    res.json({notification,newcomment} );
+    res.json(newcomment);
 }
 
 const doEditComment = async (req,res)=>
@@ -53,5 +57,6 @@ const doDeleteComment = async (req,res)=>{
     const {id} = req.params;
     let deletedcomment = await Comment.findByIdAndDelete(id);
     res.json(deletedcomment);
+
 }
 module.exports = {doGetComments, doAddComment, doEditComment, doDeleteComment};

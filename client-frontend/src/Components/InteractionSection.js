@@ -1,42 +1,48 @@
 import React, { useContext, useEffect, useState } from "react";
 import { UserContext } from '../context/usercontext';
+import InfiniteScroll from "react-infinite-scroll-component";
 import { formatISO9075 } from "date-fns";
 
 const InteractionSection = (props) => 
 {
   const {userInfo, setUserInfo} = useContext(UserContext);
   const [comments, setComments] = useState([]);
-  const [name, setName] = useState('');
   const [commentText, setCommentText] = useState("");
+  const [page, setPage] = useState(1);
  
 
   useEffect(() => {
-    const singlePost = async () => {
-        let response = await fetch(`http://127.0.0.1:5000/api/v1/comments/getAll/${props.id}`,
+    allcomments();
+}, []);
+
+  const allcomments = async () => {
+    let response = await fetch(`http://127.0.0.1:5000/api/v1/comments/getAll/${props.id}?page=${page}`,
+    {
+        headers:
         {
-            headers:
-            {
-                'token': localStorage.getItem('token')
-            }
-        })
-        let interactions = await response.json();
-        // user is not authorized, navigate to login page
-        if(response.status === 401)
-        {
-            alert("Unauthorized Access: Login Again");
-            localStorage.removeItem('token');
+            'token': localStorage.getItem('token')
         }
-        else if(response.ok)
-        {
-          // console.log(interactions);
-          setComments(interactions);
-        }
+    })
+    let interactions = await response.json();
+    // user is not authorized, navigate to login page
+    if(response.status === 401)
+    {
+        alert("Unauthorized Access: Login Again");
+        localStorage.removeItem('token');
     }
-    singlePost();
-}, [comments]);
+    else if(response.ok)
+    {
+      // console.log(interactions);
+      setComments([...comments, ...interactions]);
+      setPage(page+1);
+    }
+  }
   const handleSubmit = async(e) => 
   {
     e.preventDefault();
+    // const newComment = { content: commentText, username: userInfo.name, userId: userInfo.id, postId: props.id, createdAt: Date.now() };
+    // setComments([newComment, ...comments]);
+    // setCommentText('');
     const response = await fetch(`http://127.0.0.1:5000/api/v1/comments/addComment/${props.id}`, {
         method: 'POST',
         body: JSON.stringify({authorId: props.authorId ,username: userInfo.name, comment: commentText, userId: userInfo.id}),
@@ -45,7 +51,8 @@ const InteractionSection = (props) =>
       const interactions  = await response.json();
       if(response.ok)
       {
-        setComments(interactions);
+        setPage(1);
+        setComments([])
         setCommentText('');
       }
   };
@@ -60,7 +67,8 @@ const InteractionSection = (props) =>
       const interactions  = await response.json();
       if(response.ok)
       {
-        setComments(interactions);
+        setPage(1);
+        setComments([])
         setCommentText('');
       }
   }
@@ -76,7 +84,9 @@ const InteractionSection = (props) =>
       const interactions  = await response.json();
       if(response.ok)
       {
-        setComments(interactions);
+        setPage(1);
+        setComments([])
+        allcomments();
         setCommentText('');
       }
   }
@@ -94,19 +104,25 @@ const InteractionSection = (props) =>
       </form>
 
       <h2>Comments</h2>
-      <div className="comments-list">
-        {comments.length>0 && comments.map((comment) => (
-          <div className="comment flexbox" >
-            <input type = "text" id="cmt-txt" value = {comment.content} />
-            <input type = "text" id="cmt-hd" value = {comment.username} />
-            <p id="cmt-hd"> {"At " + formatISO9075(new Date(comment.createdAt)) }</p>
-            {(userInfo.id === comment.userId || userInfo.id === props.authorId) 
-            &&<button id='cmt-btn' onClick={() => deletefn(comment._id)}>Delete</button>} 
-            {userInfo.id === comment.userId 
-            &&<button id='cmt-btn' onClick={() => Editfn(comment._id, comment.content)}>Edit</button>} 
-          </div>
-        ))}
-      </div>
+      <InfiniteScroll
+            dataLength={comments.length}
+            next={allcomments}
+            hasMore={true}
+      >
+        <div className="comments-list">
+          {comments.length>0 && comments.map((comment) => (
+            <div className="comment flexbox" >
+              <input type = "text" id="cmt-txt" value = {comment.content} onChange={(e) => setCommentText(e.target.value)}/>
+              <input type = "text" id="cmt-hd" value = {comment.username} onChange={(e) => setCommentText(e.target.value)}/>
+              <p id="cmt-hd"> {"At " + formatISO9075(new Date(comment.createdAt)) }</p>
+              {(userInfo.id === comment.userId || userInfo.id === props.authorId) 
+              &&<button id='cmt-btn' onClick={() => deletefn(comment._id)}>Delete</button>} 
+              {userInfo.id === comment.userId 
+              &&<button id='cmt-btn' onClick={() => Editfn(comment._id, comment.content)}>Edit</button>} 
+            </div>
+          ))}
+        </div>
+      </InfiniteScroll>
     </div>
   );
 }
