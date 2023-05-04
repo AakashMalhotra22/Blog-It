@@ -27,6 +27,7 @@ const doGetNotifications = async(req,res)=>
     
     const perPage =8;
     console.log(page);
+
     const allnotifications = await Notification.find({
          createdAt: { $gt: lastdate }, authorId: userId,
     })
@@ -43,5 +44,4 @@ const doGetNotifications = async(req,res)=>
     })
     res.json(allnotifications);
 }
-
 module.exports = {doGetNotifications};

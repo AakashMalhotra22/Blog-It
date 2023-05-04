@@ -12,7 +12,6 @@ const Post = (props) =>
   const [buttontxt,setbuttontext] = useState(''); 
   const [liketxt,setliketext] = useState('');
   const [likes,setlikes] = useState(props.likes);
-  
   useEffect(()=>
   {
     // checking for a post is saved or not
@@ -39,45 +38,40 @@ const Post = (props) =>
 
   const savePost = async(event)=>
   {
+    if(buttontxt === "wanna save")
+    {
+        setbuttontext("saved");
+    }
+    else
+    {
+        setbuttontext("wanna save");
+    }
     const response = await fetch(`http://127.0.0.1:5000/api/v1/blog/savePost`, {
       method: 'PUT',
       body: JSON.stringify({postId: props._id, userId: userInfo.id}),
       headers:{'Content-Type':'application/json'},
     });
     const json   = await response.json();
-    if(response.ok)
-    {
-        if(buttontxt === "wanna save")
-        {
-          setbuttontext("saved");
-        }
-        else
-        {
-          setbuttontext("wanna save");
-        }
-    }
   }
 
   const likefn = async(event)=>
   {
+    setlikes(likes+1);
+    if(liketxt === "Like")
+    {
+      setlikes(likes+1);
+      setliketext("Liked");
+    }
+    else
+    {
+      setlikes(likes-1);
+      setliketext("Like");
+    }
     const response = await fetch(`http://127.0.0.1:5000/api/v1/blog/likepost`, {
       method: 'PUT',
       body: JSON.stringify({postId: props._id, userId: userInfo.id}),
       headers:{'Content-Type':'application/json'},
-    });
-    const json   = await response.json();
-    if(response.ok)
-    {
-        setlikes(json.post.likes);
-        if(liketxt === "Like")
-        {
-          setliketext("Liked");
-        }
-        else
-        {
-          setliketext("Like");
-        }
-    }
+    }); 
   }
 
   return (

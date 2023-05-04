@@ -9,6 +9,7 @@ const connectDB = require('./db/connect');
 const authroute = require('./routes/auth');
 const blogroute = require('./routes/blog');
 const notificationroute = require('./routes/notification');
+const commentroute = require('./routes/comments');
 const errorHandlerMiddleware = require('./middleware/errorhandler');
 
 // middleware
@@ -26,6 +27,9 @@ app.use('/api/v1/blog', blogroute);
 
 //notification route
 app.use('/api/v1/notification', notificationroute);
+
+//comment route
+app.use('/api/v1/comments', commentroute);
 
 // Error Handle route
 app.use(errorHandlerMiddleware);

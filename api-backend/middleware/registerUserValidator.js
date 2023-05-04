@@ -5,7 +5,7 @@ const registerValidator =
 [
     check('name').isLength({min:3}).withMessage('name should be of minimum 3 character'),
     check('password').isLength({min:8}).withMessage('Password should be of minimum 8 character'),
-    check('email').isEmail().withMessage('Password should be of minimum 8 character')
+    check('email').isEmail().withMessage('Enter a valid email')
 
 ]
 // Register validation result middleware
