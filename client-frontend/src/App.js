@@ -1,6 +1,6 @@
 import './App.css';
 import React, { useState,useEffect } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate } from 'react-router-dom';
 import { UserContext } from './context/usercontext';
 
 import Layout from './Components/Layout';
@@ -19,23 +19,17 @@ import SavedPosts from './Components/SavedPosts';
 import Notifications from './Components/Notifications';
 
 
-
-
 function App() {
   const [userInfo, setUserInfo] = useState(null);
 
+  // Updating the value of userInfo on reloading or refreshing
   useEffect(()=>
     {
           const token = localStorage.getItem('token');
           const id = localStorage.getItem('id');
           const name = localStorage.getItem('name');
           
-          if(token==null)
-          {
-            setUserInfo(null);
-            // navigate('/login');
-          }
-          else 
+          if(token != null)
           {
             setUserInfo({'token': token, 'id': id, 'name':name});
             console.log(userInfo);

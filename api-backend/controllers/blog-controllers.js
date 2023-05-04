@@ -198,6 +198,8 @@ const doLikePost  = async(req,res)=>
                 postId,
                 authorId: post1.authorId._id
             })        
+            
+            console.log(newNotification);
         }
        
         

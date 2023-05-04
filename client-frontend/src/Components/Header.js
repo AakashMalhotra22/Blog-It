@@ -12,7 +12,7 @@ const Header = ()=>
 
     
     useEffect(() => {
-        
+
         const pathname = location.pathname;
         if (pathname === '/') {
           setmainheading('ALL Blogs');
@@ -35,10 +35,10 @@ const Header = ()=>
         else if (pathname === `/savedPosts/${id}`) {
             setmainheading('Saved Blogs');
         }
-        else if (pathname === `/allPost/${id}` & userInfo.id ==id) {
+        else if (pathname === `/allPost/${id}` && userInfo.id ==id) {
             setmainheading('Your Blogs');
         }
-        else if (pathname === `/allPost/${id}` & userInfo.id !=id) {
+        else if (pathname === `/allPost/${id}` && userInfo.id !=id) {
             setmainheading('User Blogs');
         }
 

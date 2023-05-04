@@ -9,23 +9,25 @@ const Profile = () => {
     const { userInfo, setUserInfo } = useContext(UserContext);
   
     useEffect(() => {
-      const fetchData = async () => {
-          const response = await fetch(`http://127.0.0.1:5000/api/v1/auth/${id}`, {
-            headers: {
-              token: localStorage.getItem('token'),
-            },
-          });
-          if (response.ok) {
-            const data = await response.json();
-            setProfile(data);
-          } else {
-            setUserInfo(null);
-            navigate('/login');
-          }
-        
-      };
-      fetchData();
+      fetchProfile();
     }, [id, navigate, setUserInfo]);
+
+    const fetchProfile = async () => 
+    {
+      const response = await fetch(`http://127.0.0.1:5000/api/v1/auth/${id}`, {
+        headers: { token: localStorage.getItem('token') },
+      });
+      if (response.ok) 
+      {
+        const data = await response.json();
+        setProfile(data);
+      } 
+      else 
+      {
+        setUserInfo(null);
+        navigate('/login');
+      }
+  };
   
     // add a check to make sure profile is not null before accessing its properties
     if (!profile) {
@@ -56,8 +58,8 @@ const Profile = () => {
           </div>
         )}
         <Link className="" to={`/allPost/${id}`}>
-          {userInfo.id !=id && <button> User Blogs</button>}
-          {userInfo.id ==id && <button> Your Blogs</button>}
+          {userInfo.id !==id && <button> User Blogs</button>}
+          {userInfo.id ===id && <button> Your Blogs</button>}
         </Link>
       </div>
     );

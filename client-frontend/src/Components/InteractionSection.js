@@ -32,28 +32,33 @@ const InteractionSection = (props) =>
     }
     else if(response.ok)
     {
-      // console.log(interactions);
-      setComments([...comments, ...interactions]);
-      setPage(page+1);
+      if (page === 1) {
+        // if it's the first page, set the interactions as the new comments
+        setComments(interactions);
+      } else {
+        // else concatenate the existing comments with the new ones
+        setComments([...comments, ...interactions]);
+      }
+      setPage(page + 1);
     }
   }
   const handleSubmit = async(e) => 
   {
     e.preventDefault();
-    // const newComment = { content: commentText, username: userInfo.name, userId: userInfo.id, postId: props.id, createdAt: Date.now() };
-    // setComments([newComment, ...comments]);
-    // setCommentText('');
+    console.log('teriassitasi');
+    
     const response = await fetch(`http://127.0.0.1:5000/api/v1/comments/addComment/${props.id}`, {
         method: 'POST',
         body: JSON.stringify({authorId: props.authorId ,username: userInfo.name, comment: commentText, userId: userInfo.id}),
         headers:{'Content-Type':'application/json'},
       });
-      const interactions  = await response.json();
+      const newcomment  = await response.json();
       if(response.ok)
       {
         setPage(1);
-        setComments([])
         setCommentText('');
+        setComments([...comments,newcomment]);
+        
       }
   };
 
@@ -86,9 +91,13 @@ const InteractionSection = (props) =>
       {
         setPage(1);
         setComments([])
-        allcomments();
+        // allcomments();
         setCommentText('');
       }
+  }
+
+  if (!comments) {
+    return <div>Loading...</div>;
   }
 
   var flag = true
@@ -110,10 +119,11 @@ const InteractionSection = (props) =>
             hasMore={true}
       >
         <div className="comments-list">
-          {comments.length>0 && comments.map((comment) => (
+          {comments.length>0 && comments.map((comment, index) => (
+            
             <div className="comment flexbox" >
-              <input type = "text" id="cmt-txt" value = {comment.content} onChange={(e) => setCommentText(e.target.value)}/>
-              <input type = "text" id="cmt-hd" value = {comment.username} onChange={(e) => setCommentText(e.target.value)}/>
+              <input type = "text" id="cmt-txt" value = {comment.content} />
+              <input type = "text" id="cmt-hd" value = {comment.username} />
               <p id="cmt-hd"> {"At " + formatISO9075(new Date(comment.createdAt)) }</p>
               {(userInfo.id === comment.userId || userInfo.id === props.authorId) 
               &&<button id='cmt-btn' onClick={() => deletefn(comment._id)}>Delete</button>} 
