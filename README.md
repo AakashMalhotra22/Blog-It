@@ -1,4 +1,5 @@
 # Blog-It
+A blogging application for sharing information via Blogs.
 
 1. A website that provides the feature of creating, deleting, updating and accessing Blogs.
 2. Basic functionalities like Login, Register, Like, comment(with all crud operations), save a post.
