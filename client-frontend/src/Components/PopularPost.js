@@ -7,39 +7,31 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const PopularPost = ()=>
 {
-    const {setUserInfo} = useContext(UserContext);   
     const navigate = useNavigate();
-
+    const {setUserInfo} = useContext(UserContext);   
     const [posts, setPosts] = useState('');
     const [page, setPage] = useState(1);
+    const [newdata, setnewdata] = useState(0);
     const [lastItemTimestamp, setlastItemTimestamp] = useState(Date.now());
-    //Accessing all the post for the Main page
+    
     useEffect( ()=>
     {
-        allposts();
+        allpopularpost();
     },[])
     
-    const allposts = async()=>
+    const allpopularpost = async()=>
     {
         let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/popularpost?page=${page}&lastItemTimestamp=${lastItemTimestamp}`,
         {
-            headers:
-            {
-                'token': localStorage.getItem('token')
-            },
+            headers:{'token': localStorage.getItem('token')},
         })
         if(response.ok)
         {
             let data = await response.json();
-            console.log(data);
             setPosts([...posts, ...data]);
             setPage(page+1);
+            setnewdata(data.length);
             if(posts.length>0) setlastItemTimestamp(posts[posts.length - 1].createdAt);
-        }
-        else
-        {
-            setUserInfo(null);
-            navigate("/login");
         }
     }
 
@@ -47,9 +39,9 @@ const PopularPost = ()=>
         <>
             <InfiniteScroll
             dataLength={posts.length}
-            next={allposts}
-            hasMore={true}
-            // loader={<h4>Loading...</h4>}
+            next={allpopularpost}
+            hasMore={newdata>0}
+            loader={<h4>Loading...</h4>}
             >
                 {posts.length>0 && posts.map((post)=>
                 {

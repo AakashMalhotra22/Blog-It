@@ -1,17 +1,16 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { formatISO9075 } from "date-fns";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { UserContext } from '../context/usercontext';
-const myImage = require('./like.png');
+const myImage = require('../Images/like.png');
 
 const Post = (props) => 
 {
-  const navigate = useNavigate();
-  const { userInfo, setUserInfo } = useContext(UserContext);
-
+  const { userInfo} = useContext(UserContext);
   const [buttontxt,setbuttontext] = useState(''); 
   const [liketxt,setliketext] = useState('');
   const [likes,setlikes] = useState(props.likes);
+  
   useEffect(()=>
   {
     // checking for a post is saved or not
@@ -29,12 +28,12 @@ const Post = (props) =>
     {
         setliketext("Liked");
     }
-    else{
+    else
+    {
       setliketext("Like");
     }
   },[]);
 
- 
 
   const savePost = async(event)=>
   {
@@ -46,12 +45,12 @@ const Post = (props) =>
     {
         setbuttontext("wanna save");
     }
-    const response = await fetch(`http://127.0.0.1:5000/api/v1/blog/savePost`, {
+    await fetch(`http://127.0.0.1:5000/api/v1/blog/savePost`, {
       method: 'PUT',
       body: JSON.stringify({postId: props._id, userId: userInfo.id}),
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json',
+                'token': localStorage.getItem('token')},
     });
-    const json   = await response.json();
   }
 
   const likefn = async(event)=>
@@ -67,10 +66,11 @@ const Post = (props) =>
       setlikes(likes-1);
       setliketext("Like");
     }
-    const response = await fetch(`http://127.0.0.1:5000/api/v1/blog/likepost`, {
+    await fetch(`http://127.0.0.1:5000/api/v1/blog/likepost`, {
       method: 'PUT',
       body: JSON.stringify({postId: props._id, userId: userInfo.id}),
-      headers:{'Content-Type':'application/json'},
+      headers:{'Content-Type':'application/json',
+                'token': localStorage.getItem('token')},
     }); 
   }
 
@@ -79,7 +79,7 @@ const Post = (props) =>
       <div className="post">
         <div className="image">
           <Link to={`/post/${props._id}`}>
-            <img src={'http://localhost:5000/' + props.cover} alt="error " height="300px" width="300" />
+            <img src={'http://localhost:5000/' + props.cover} alt="error" height="300px" width="300" />
           </Link>
 
         </div>
@@ -95,7 +95,7 @@ const Post = (props) =>
           </p>
           <p className="summary">{props.summary}</p>
           <div className="button-sec">
-          <button onClick={likefn} className='b2'><img src={myImage}  alt="Button Image"/>{liketxt} {likes}</button>
+          <button onClick={likefn} className='b2'><img src={myImage}  alt="error"/>{liketxt} {likes}</button>
           <Link className='b2' to={`/post/${props._id}`}><button>View Post</button></Link>
           <button className='b1' onClick={savePost}>{buttontxt}</button>
           </div>

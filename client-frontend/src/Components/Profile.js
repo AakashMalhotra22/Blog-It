@@ -2,32 +2,31 @@ import React, { useEffect, useState, useContext } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { UserContext } from '../context/usercontext';
 
-const Profile = () => {
+const Profile = () => 
+{
     const { id } = useParams();
     const navigate = useNavigate();
-    const [profile, setProfile] = useState(null); 
     const { userInfo, setUserInfo } = useContext(UserContext);
+    const [profile, setProfile] = useState(null); 
   
     useEffect(() => {
+      const fetchProfile = async () => 
+      {
+        const response = await fetch(`http://127.0.0.1:5000/api/v1/auth/${id}`, {
+          headers: { token: localStorage.getItem('token') },
+        });
+        if (response.ok) 
+        {
+          const data = await response.json();
+          setProfile(data);
+        } 
+        else 
+        {
+          navigate('/');
+        } 
+      };
       fetchProfile();
-    }, [id, navigate, setUserInfo]);
-
-    const fetchProfile = async () => 
-    {
-      const response = await fetch(`http://127.0.0.1:5000/api/v1/auth/${id}`, {
-        headers: { token: localStorage.getItem('token') },
-      });
-      if (response.ok) 
-      {
-        const data = await response.json();
-        setProfile(data);
-      } 
-      else 
-      {
-        setUserInfo(null);
-        navigate('/login');
-      }
-  };
+    }, []);
   
     // add a check to make sure profile is not null before accessing its properties
     if (!profile) {
@@ -41,7 +40,7 @@ const Profile = () => {
         <p>Total Likes {profile.likes}</p>
   
         <div className="image">
-          <img src={`http://localhost:5000/${profile.photo}`} alt="" />
+          <img src={`http://localhost:5000/${profile.photo}`} alt="error" />
         </div>
   
         {userInfo.id === id && (

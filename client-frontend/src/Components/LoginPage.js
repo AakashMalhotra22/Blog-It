@@ -3,22 +3,13 @@ import {useState, useContext} from 'react'
 import {useNavigate} from 'react-router-dom';
 import { UserContext } from '../context/usercontext';
 
-const LoginPage = () => {
-  
+const LoginPage = () => 
+{  
   const navigate = useNavigate();
+  const {setUserInfo} = useContext(UserContext);
   const [email, setemail] = useState('');
   const [password,setpassword] = useState('');
 
-  const {userInfo, setUserInfo} = useContext(UserContext);
-
-  const fn1 = (event)=>
-  {
-      setemail(event.target.value);
-  }
-  const fn2 = (event)=>
-  {
-      setpassword(event.target.value);
-  }
   const login = async (event)=>
    {
       event.preventDefault();
@@ -47,8 +38,8 @@ const LoginPage = () => {
     <>
     <form className="login" onSubmit ={login}>
         <h1>Login</h1>
-        <input type = "text" placeholder = "email" onChange ={fn1}/>
-        <input type = "password" placeholder = "password" onChange = {fn2}/>
+        <input type = "text" placeholder = "email" onChange ={(e)=> setemail(e.target.value)}/>
+        <input type = "password" placeholder = "password" onChange = {(e)=>setpassword(e.target.value)}/>
         <button>Login</button>
     </form>
     </>

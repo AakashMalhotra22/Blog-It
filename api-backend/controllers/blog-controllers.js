@@ -80,6 +80,7 @@ const doDeletePost = async(req,res)=>
 
 }
 
+// accessing all post of a user
 const doAllPostUser = async(req,res)=>
 {   
     const {id} = req.params;
@@ -98,7 +99,7 @@ const doAllPostUser = async(req,res)=>
 
 }
 
-// Updating Blog function
+// Updating post function
 const doUpdatePost = async(req,res)=>
 {
     let newPath = null;
@@ -233,39 +234,17 @@ const doSavePost  = async(req,res)=>
     let post = await Post.findById(postId);
     res.json({result, savedPost,post});
 }
-// all comments
-const doAccessComments = async (req,res)=>{
-    const {id} = req.params;
-    let post = await Post.findById(id);
 
-    res.json(post.interactions);
-}
-const doAddComment = async (req,res)=>{
-    const {id} = req.params;
-    const {comment, username, userId} = req.body;
-
-    const element = {comment,username, userId};    
+// accessing all saved post of a user
+const doAllSavedPost = async(req,res)=>
+{   
+    const Posts = await Post.find()
+    .populate('authorId')
+    .sort({createdAt:-1})
     
-    result = await Post.updateOne(
-    { _id: id },
-    {
-        $push: { interactions: element},
-    })
+    res.json(Posts);
 
-    let post = await Post.findById(id);
-
-    // sending notification
-    const newNotification = await Notification.create({
-        notification_type: "comment",
-        message: comment,
-        userId,
-        postId: id,
-        authorId: post.authorId._id
-    })
-
-    res.json(post.interactions);
 }
-
 
 module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost,
-     doAllPostUser,doPopularPost, doLikePost,doSavePost, doAccessComments, doAddComment};
+     doAllPostUser,doPopularPost, doLikePost,doSavePost, doAllSavedPost};

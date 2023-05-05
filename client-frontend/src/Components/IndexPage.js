@@ -7,12 +7,13 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const IndexPage = ()=>
 {
-    const {setUserInfo} = useContext(UserContext);   
     const navigate = useNavigate();
-
+    const {setUserInfo} = useContext(UserContext);   
     const [posts, setPosts] = useState('');
     const [page, setPage] = useState(1);
+    const [newdata, setnewdata] = useState(0);
     const [lastItemTimestamp, setlastItemTimestamp] = useState(Date.now());
+
     //Accessing all the post for the Main page
     useEffect( ()=>
     {
@@ -31,9 +32,9 @@ const IndexPage = ()=>
         if(response.ok)
         {
             let data = await response.json();
-            console.log(data);
             setPosts([...posts, ...data]);
             setPage(page+1);
+            setnewdata(data.length);
             if(posts.length>0) setlastItemTimestamp(posts[posts.length - 1].createdAt);
         }
         else
@@ -48,8 +49,8 @@ const IndexPage = ()=>
             <InfiniteScroll
             dataLength={posts.length}
             next={allposts}
-            hasMore={true}
-            // loader={<h4>Loading...</h4>}
+            hasMore={newdata>0}
+            loader={<h4>Loading...</h4>}
             >
                 {posts.length>0 && posts.map((post)=>
                 {

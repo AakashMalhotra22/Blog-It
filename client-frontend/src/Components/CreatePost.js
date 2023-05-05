@@ -3,10 +3,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Editor from './Editor';
 
-const CreatePost = ()=>{
-
+const CreatePost = ()=>
+{
     const navigate = useNavigate();
-
     const [title,setTitle] = useState('');
     const [summary,setSummary] = useState('');
     const [content,setContent] = useState('');
@@ -24,10 +23,7 @@ const CreatePost = ()=>{
         const response = await fetch('http://127.0.0.1:5000/api/v1/blog/post', {
           method: 'POST',
           body: data,
-          headers:
-            {
-                'token': localStorage.getItem('token')
-            },
+          headers: {'token': localStorage.getItem('token')},
 
         });
         const json = await response.json();

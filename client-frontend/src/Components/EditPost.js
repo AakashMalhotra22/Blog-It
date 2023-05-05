@@ -5,9 +5,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 const EditPost = () => 
 {
-    const navigate = useNavigate();
-    
     const {id} = useParams();
+    const navigate = useNavigate();
     const [title,setTitle] = useState('');
     const [summary,setSummary] = useState('');
     const [content,setContent] = useState('');
@@ -16,7 +15,6 @@ const EditPost = () =>
     //Accessing the post before Editing
     useEffect(() => 
     {
-        
         const fn = async()=>{
             let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,{
               headers:
@@ -56,10 +54,7 @@ const EditPost = () =>
               const response = await fetch(`http://127.0.0.1:5000/api/v1/blog/updatepost`, {
                 method: 'PUT',
                 body: data,
-                headers:
-                    {
-                        'token': localStorage.getItem('token')
-                    },
+                headers:{'token': localStorage.getItem('token')},
               });
               const json   = await response.json();
               if (response.ok) {

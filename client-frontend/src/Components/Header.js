@@ -4,13 +4,12 @@ import {UserContext} from '../context/usercontext';
 
 const Header = ()=>
 {
-    const [mainheading, setmainheading] = useState('MyBlog');
-    const {userInfo, setUserInfo} = useContext(UserContext);
     const { id } = useParams();
     const location = useLocation();   
     const navigate = useNavigate();
+    const {userInfo, setUserInfo} = useContext(UserContext);
+    const [mainheading, setmainheading] = useState('MyBlog');
 
-    
     useEffect(() => {
 
         const pathname = location.pathname;
@@ -29,17 +28,18 @@ const Header = ()=>
         else if (pathname === `/${id}`) {
             setmainheading('Profile');
         }
-        else if (pathname === `/login` || pathname ==`\register`) {
+        else if (pathname === `/login` || pathname ===`\register`) {
             setmainheading('Blog-It');
         }
         else if (pathname === `/savedPosts/${id}`) {
             setmainheading('Saved Blogs');
         }
-        else if (pathname === `/allPost/${id}` && userInfo.id ==id) {
-            setmainheading('Your Blogs');
-        }
-        else if (pathname === `/allPost/${id}` && userInfo.id !=id) {
+        else if (id !==null && pathname === `/allPost/${id}`) {
             setmainheading('User Blogs');
+        }
+        else
+        {
+            setmainheading('Blog-It');
         }
 
       }, [location]);

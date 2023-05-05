@@ -15,8 +15,7 @@ const {doCreatePost,
        doPopularPost,
        doLikePost,
        doSavePost,
-       doAccessComments,
-       doAddComment} = require('../controllers/blog-controllers');
+       doAllSavedPost} = require('../controllers/blog-controllers');
 
 // add post
 router.route('/post').post(verifyToken ,uploadMiddleware.single('file')
@@ -43,10 +42,8 @@ router.route('/likepost').put(doLikePost);
 // save a Post
 router.route('/savePost').put(doSavePost);
 
-// comments/${id}
-router.route('/comments/:id').get(doAccessComments);
-router.route('/addcomment/:id').put(doAddComment);
-// router.route('/comments/:id').get(doAccessComments);
+// access saved post of a user 
+router.route('/savedposts').get(doAllSavedPost);
 
 module.exports = router;
  

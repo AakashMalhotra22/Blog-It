@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
-const RegisterPage = ()=>{
+const RegisterPage = ()=>
+{
     const navigate = useNavigate();
     
     const [name,setname] = useState('');
@@ -26,14 +27,9 @@ const RegisterPage = ()=>{
         data.set('password', password);
         data.set('file', files[0]);
 
-        // console.log(data.file);
-
-        console.log(files[0]);
         let response = await fetch('http://127.0.0.1:5000/api/v1/auth/register',{
             method: 'POST',
             body: data
-            // body: JSON.stringify({name,email,password,file: files[0]}),
-            // headers:{'Content-Type':'application/json'},
         })
         const json = await response.json();
         alert(json.msg);

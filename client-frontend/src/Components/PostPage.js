@@ -7,14 +7,13 @@ import InteractionSection from "./InteractionSection";
 
 export default function PostPage() 
 {
-    const [postInfo, setPostInfo] = useState(null);
-    const { userInfo } = useContext(UserContext);
     const { id } = useParams();
     const navigate = useNavigate();
+    const { userInfo } = useContext(UserContext);
+    const [postInfo, setPostInfo] = useState(null);
 
-    // Accessing single Post
+    // Accessing Post details
     useEffect(() => {
-
         const singlePost = async () => {
             let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,
             {
@@ -24,22 +23,17 @@ export default function PostPage()
                 }
             })
             let post = await response.json();
-            // user is not authorized, navigate to login page
-            if(response.status === 401)
-            {
-                alert("Unauthorized Access: Login Again");
-                localStorage.removeItem('token');
-                navigate("/login")
-            }
-            else if(response.ok)
+            if(response.ok)
             {
                 setPostInfo(post);
+            }
+            else
+            {
+                navigate("/")
             }
         }
         singlePost();
     }, []);
-
-    if (!postInfo) return '';
 
     // delete request
     const deletepost = (ev)=>
@@ -49,12 +43,8 @@ export default function PostPage()
             let response = await fetch(`http://127.0.0.1:5000/api/v1/blog/post/${id}`,
             {
                 method: 'DELETE',
-                headers:
-                {
-                    'token': localStorage.getItem('token')
-                }
+                headers: { 'token': localStorage.getItem('token') }
             })
-            let deleteMessage = await response.json();
             if(response.status === 401)
             {
                 alert("Unauthorized Access: Login Again");
@@ -67,9 +57,12 @@ export default function PostPage()
             }
         }
         fn();
-        
     }
 
+    if (!postInfo) 
+    {
+        return <div>Loading...</div>;
+    }
     return (
 
         <div className="post-page">
