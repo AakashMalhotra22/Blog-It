@@ -32,7 +32,6 @@ function App() {
           if(token != null)
           {
             setUserInfo({'token': token, 'id': id, 'name':name});
-            console.log(userInfo);
           }
     },[])
 

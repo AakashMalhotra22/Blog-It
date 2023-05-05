@@ -22,13 +22,13 @@ router.route('/post').post(verifyToken ,uploadMiddleware.single('file')
 ,validateCreatePost, doCreatePost);
 
 // access all post
-router.route('/allposts').get(verifyToken,doAccessAllPosts);
+router.route('/allposts').get(doAccessAllPosts);
 
 // access single post with given id and delete post with given id
-router.route('/post/:id').get(verifyToken, doSinglePost).delete(verifyToken, doDeletePost);
+router.route('/post/:id').get(doSinglePost).delete(verifyToken, doDeletePost);
 
 // access allpost of a user with given user id
-router.route('/allposts/:id').get(doAllPostUser);
+router.route('/allposts/:id').get(verifyToken ,doAllPostUser);
 
 // popular post
 router.route('/popularpost').get(doPopularPost);
@@ -37,13 +37,13 @@ router.route('/popularpost').get(doPopularPost);
 router.route('/updatepost').put(verifyToken, uploadMiddleware.single('file'),validateEditPost, doUpdatePost);
 
 // like a post
-router.route('/likepost').put(doLikePost);
+router.route('/likepost').put(verifyToken ,doLikePost);
 
 // save a Post
-router.route('/savePost').put(doSavePost);
+router.route('/savePost').put(verifyToken ,doSavePost);
 
 // access saved post of a user 
-router.route('/savedposts').get(doAllSavedPost);
+router.route('/savedposts').get(verifyToken ,doAllSavedPost);
 
 module.exports = router;
  

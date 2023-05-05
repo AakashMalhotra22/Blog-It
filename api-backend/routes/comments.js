@@ -8,8 +8,8 @@ const { doGetComments,
         doEditComment } = require('../controllers/comment-controllers');
 
 router.route('/getAll/:id').get(doGetComments);
-router.route('/addComment/:id').post(doAddComment);
-router.route('/:id').put(doEditComment).delete(doDeleteComment);
+router.route('/addComment/:id').post(verifyToken, doAddComment);
+router.route('/:id').put(verifyToken, doEditComment).delete(verifyToken ,doDeleteComment);
 
 module.exports = router;
  

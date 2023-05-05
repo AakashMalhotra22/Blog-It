@@ -18,14 +18,14 @@ router.route('/register').post(uploadMiddleware.single('file'),validateProfilePh
 router.route('/login').post(doLogin);
 
 // access profile of a user
-router.route('/:id').get(verifyToken,doProfile);
+router.route('/:id').get(doProfile);
 
 //update profile of a user
-router.route('/update/:id').post(uploadMiddleware.single('file'),validateUpdateProfilePhoto,
+router.route('/update/:id').post(verifyToken, uploadMiddleware.single('file'),validateUpdateProfilePhoto,
 updateValidator, updateValidationMiddleware, doUpdate);
 
 // update password of a user
-router.route('/updatepassword/:id').post(updatePassValidator, updatePassValidationMiddleware, doUpdatePass);
+router.route('/updatepassword/:id').post(verifyToken ,updatePassValidator, updatePassValidationMiddleware, doUpdatePass);
 
 
 module.exports = router;

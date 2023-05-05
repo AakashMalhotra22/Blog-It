@@ -1,8 +1,6 @@
 const Post = require('../models/Post');
-const User = require('../models/users');
+const User = require('../models/User');
 const Notification = require('../models/Notification');
-const bcrypt  = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 const fs = require('fs'); 
 
 
@@ -10,14 +8,11 @@ const fs = require('fs');
 const doCreatePost = async (req,res)=>
 { 
     // storing file with the extension in uploads
-    // console.log(req.file);
     const {originalname,path} = req.file;
     const parts = originalname.split('.');
     const ext = parts[parts.length - 1];
-
     const newPath = path+'.'+ext;
     fs.renameSync(path, newPath);
-    // console.log("new"+newPath);
 
     let data = req.data;
     const email = data.email;
@@ -67,17 +62,15 @@ const doDeletePost = async(req,res)=>
     const {id} = req.params;
     let post = await Post.findByIdAndDelete(id);
     let creator = post.authorId;
-    console.log(creator)
 
     let user = await User.findById(creator);
 
+    // updating total likes of a user on post deletion
     await User.updateMany({ _id: creator },
     {              
          $set: {likes: user.likes-post.likes}
     })
-    
     res.json(post);
-
 }
 
 // accessing all post of a user
@@ -96,7 +89,6 @@ const doAllPostUser = async(req,res)=>
     .skip((perPage * page) - perPage)
     .limit(perPage);
     res.json(Posts);
-
 }
 
 // Updating post function
@@ -159,6 +151,7 @@ const doLikePost  = async(req,res)=>
     let likes = post1.likes;
 
     let result;
+    // if post has been liked by user then dislike
     if(likeduser.includes(userId))
     {
         result = await Post.updateMany({ _id: postId },
@@ -171,6 +164,7 @@ const doLikePost  = async(req,res)=>
             $set: {likes: creator_likes-1}
         })
     }
+    // if post has not been liked by user then like it
     else
     {   
         result = await Post.updateMany(
@@ -187,10 +181,9 @@ const doLikePost  = async(req,res)=>
         const allnotifications = await Notification.find({
             userId, postId, notification_type: "like",
         })
-        console.log(allnotifications);
+
         if (allnotifications.length==0)
         {   
-            console.log("i");
             //sending notification
             const newNotification = await Notification.create({
                 notification_type: "like",
@@ -199,15 +192,12 @@ const doLikePost  = async(req,res)=>
                 postId,
                 authorId: post1.authorId._id
             })        
-            
-            console.log(newNotification);
-        }
-       
-        
+        }   
     }
      let post = await Post.findById(postId);
     res.json({result, likeduser,likes,post});
 }
+
 // save a Post
 const doSavePost  = async(req,res)=>
 {
@@ -243,7 +233,6 @@ const doAllSavedPost = async(req,res)=>
     .sort({createdAt:-1})
     
     res.json(Posts);
-
 }
 
 module.exports = {doCreatePost, doAccessAllPosts,doSinglePost, doDeletePost, doUpdatePost,

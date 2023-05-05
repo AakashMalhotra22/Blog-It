@@ -3,6 +3,7 @@ const router = express.Router();
 const verifyToken = require('../middleware/verifyToken');
 const { doGetNotifications} = require('../controllers/notification-controllers');
 
-router.route('/getAll').get(doGetNotifications);
+//accessing all notification for a user
+router.route('/getAll').get(verifyToken ,doGetNotifications);
 module.exports = router;
  

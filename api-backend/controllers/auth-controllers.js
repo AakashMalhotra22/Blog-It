@@ -1,4 +1,4 @@
-const User = require('../models/users');
+const User = require('../models/User');
 const Post = require('../models/Post');
 const bcrypt  = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -6,31 +6,21 @@ const fs = require('fs');
 
 const doRegister = async (req,res)=>
 {
-    // storing file with the extension in uploads
-    // console.log(req.file);
-    console.log(req.body);
+    // checking for file extension
     const {originalname,path} = req.file;
-    console.log(originalname);
-    
     const parts = originalname.split('.');
     const ext = parts[parts.length - 1];
-
     const newPath = path+'.'+ext;
     fs.renameSync(path, newPath);
-    console.log("new"+newPath);
-    
-
+ 
     const {name,password, email} = req.body;
-    console.log(name);
-
+ 
     // checking user already exist
     let user = await User.findOne({email:req.body.email});
     if(user)
     {
         return res.status(400).json({'msg':"username already exist"});
     }
-    console.log(password);
-    
 
      // encrypting the password
     const salt = await bcrypt.genSalt(10);
@@ -44,8 +34,7 @@ const doRegister = async (req,res)=>
           email,
           photo: newPath,
     })
-    console.log("final");
-
+    
     res.json({"msg":"Registration Successful", "details":req.body});
 }
 
@@ -73,6 +62,7 @@ const doLogin = async (req,res)=>
     res.json({"message":"Login Successful", "details":req.body,"token": authtoken, "id": user._id, "user":user});
 }
 
+// accessing profile for a user
 const doProfile = async (req,res)=>
 {
     const {id} = req.params;
@@ -82,20 +72,17 @@ const doProfile = async (req,res)=>
     res.json(singleUser);
 }
 
+// update user profile
 const doUpdate = async (req,res)=>
 {
-    console.log("aa0");
     const {id} = req.params;
 
     let newPath1;
     if (req.file) 
     {
-        const {originalname,path} = req.file;
-        console.log("hi"+originalname);
-        
+        const {originalname,path} = req.file;        
         const parts = originalname.split('.');
         const ext = parts[parts.length - 1];
-
         newPath1 = path+'.'+ext;
         fs.renameSync(path, newPath1);
     }
@@ -115,15 +102,15 @@ const doUpdate = async (req,res)=>
     res.json({"msg":"Profile Updated", userdata});
 }
 
+// update password
 const doUpdatePass = async (req,res)=>
 {
     const {id} = req.params;
     const {oldpassword, password} = req.body;
     
-    console.log("welcome");
-
     // checking user existence
     let user = await User.findById(id);
+
     // decrypting the password
     const passwordCompare = await bcrypt.compare(oldpassword,user.password);
     if(!passwordCompare)
@@ -131,7 +118,7 @@ const doUpdatePass = async (req,res)=>
         return res.status(400).json({'msg':"Old password is wrong"});
     }
 
-     // encrypting the password
+     // encrypting the new password
      const salt = await bcrypt.genSalt(10);
      const secPass = await bcrypt.hash(password,salt);
 

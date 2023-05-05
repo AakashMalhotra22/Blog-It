@@ -1,6 +1,7 @@
 const Comment = require('../models/Comments');
 const Notification = require('../models/Notification');
 
+// accessing all comments
 const doGetComments = async (req,res)=>{
     const {id} = req.params;
     const page = req.query.page || 1;
@@ -14,6 +15,7 @@ const doGetComments = async (req,res)=>{
     res.json(comments);
 }
 
+// adding comment
 const doAddComment = async (req,res)=>{
     const {id} = req.params;
     const {comment, username, userId, authorId} = req.body;
@@ -37,13 +39,11 @@ const doAddComment = async (req,res)=>{
     res.json(newcomment);
 }
 
+// updating a comment
 const doEditComment = async (req,res)=>
 {
     const {id} = req.params;
     const {message} = req.body 
-
-    console.log(id);
-    console.log(message);
 
     const filter = {_id : id};
     const upd = 
@@ -53,6 +53,8 @@ const doEditComment = async (req,res)=>
     const updatedComment = await Comment.findOneAndUpdate(filter,upd, {new:true})
     res.json(updatedComment);
 }
+
+// deleting a comment
 const doDeleteComment = async (req,res)=>{
     const {id} = req.params;
     let deletedcomment = await Comment.findByIdAndDelete(id);

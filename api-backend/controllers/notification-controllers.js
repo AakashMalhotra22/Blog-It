@@ -1,6 +1,7 @@
 const Notification = require('../models/Notification');
-const User = require('../models/users');
+const User = require('../models/User');
 
+// accessing all notifications
 const doGetNotifications = async(req,res)=>
 {
     // Get userId
@@ -22,11 +23,9 @@ const doGetNotifications = async(req,res)=>
     if (timeDifference <= 86400000) 
     {
         lastdate= new Date(currentTime-86400000);
-        console.log(lastdate);
     }
     
     const perPage =8;
-    console.log(page);
 
     const allnotifications = await Notification.find({
          createdAt: { $gt: lastdate }, authorId: userId,
@@ -36,7 +35,6 @@ const doGetNotifications = async(req,res)=>
     .skip((perPage * page) - perPage)
     .limit(perPage);
     
-    console.log(allnotifications.length);
     // updating last notification access time of user
     await User.updateMany({ _id: userId },
     {              
