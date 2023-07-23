@@ -4,7 +4,7 @@ const Notification = require('../models/Notification');
 const fs = require('fs'); 
 
 
-// CreateBlog function
+// create a Blog
 const doCreatePost = async (req,res)=>
 { 
     // storing file with the extension in uploads
@@ -30,7 +30,7 @@ const doCreatePost = async (req,res)=>
     res.json(postDoc);
 }
 
-// Accessing all the Blogs function
+// Accessing all the Blogs
 const doAccessAllPosts = async(req,res)=>
 {
     const perPage =3;
@@ -48,7 +48,7 @@ const doAccessAllPosts = async(req,res)=>
     res.json(allposts);
 }
 
-// Accessing single Blog function
+// accessing a single Blog 
 const doSinglePost = async(req,res)=>
 {   
     const {id} = req.params; 
@@ -56,7 +56,7 @@ const doSinglePost = async(req,res)=>
     res.json(singlePost);
 }
 
-// Deleting Blog function
+// delete a blog
 const doDeletePost = async(req,res)=>
 {
     const {id} = req.params;
@@ -73,7 +73,7 @@ const doDeletePost = async(req,res)=>
     res.json(post);
 }
 
-// accessing all post of a user
+// accessing all blogs of a user
 const doAllPostUser = async(req,res)=>
 {   
     const {id} = req.params;
@@ -85,13 +85,13 @@ const doAllPostUser = async(req,res)=>
         createdAt: { $lt: lastItemTimestamp },
       })
     .populate('authorId')
-    .sort({likes:"desc", interactions: "desc",createdAt:-1})
+    .sort({likes:"desc",createdAt:-1})
     .skip((perPage * page) - perPage)
     .limit(perPage);
     res.json(Posts);
 }
 
-// Updating post function
+// updating a blog
 const doUpdatePost = async(req,res)=>
 {
     let newPath = null;
@@ -131,7 +131,7 @@ const doPopularPost = async(req,res)=>
         createdAt: { $lt: lastItemTimestamp },
       })
     .populate('authorId')
-    .sort({likes:"desc", interactions: "desc",createdAt:-1})
+    .sort({likes:"desc",createdAt:-1})
     .skip((perPage * page) - perPage)
     .limit(perPage);
 
