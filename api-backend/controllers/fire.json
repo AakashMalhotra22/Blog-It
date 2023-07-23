@@ -1,5 +1,0 @@
-map1.set("Packets are being send and still not working", {
-      response:
-        "1) Open command Promt <br>2) Write inetcpl.cpl and press Enter<br> 3) Pop up shows up and select 'Connections' section in nav bar <br> 4) Select LAN Setting below <br> 5) check Proxy Server and set default IP Address and Port <br> 6) Try any of the following proxy <br>7) 172.31.100.1, 172.31.102.29, 172.31.100.27 with Port 3128 <br>8) Press Enter <br>9) Refresh and check for Internet",
-      button: ["Still Not Working", "Yeah I Got the internet"],
-    });
