@@ -11,7 +11,6 @@ const Header = ()=>
     const [mainheading, setmainheading] = useState('MyBlog');
 
     useEffect(() => {
-
         const pathname = location.pathname;
         if (pathname === '/') {
           setmainheading('ALL Blogs');

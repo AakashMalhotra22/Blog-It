@@ -1,18 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { formatISO9075 } from "date-fns";
-import { Link} from 'react-router-dom';
+import { Link, useNavigate} from 'react-router-dom';
 import { UserContext } from '../context/usercontext';
 const myImage = require('../Images/like.png');
 
 const Post = (props) => 
 {
-  const { userInfo} = useContext(UserContext);
-  const [buttontxt,setbuttontext] = useState(''); 
+  const navigate = useNavigate();
+  const {userInfo, setUserInfo} = useContext(UserContext);   
+  const [buttontxt,setbuttontext] = useState('saved'); 
   const [liketxt,setliketext] = useState('');
   const [likes,setlikes] = useState(props.likes);
   
   useEffect(()=>
   {
+    if(userInfo == null) 
+    {
+            setUserInfo(null);
+            navigate("/login");
+    }
     // checking for a post is saved or not
     if(props.savedPost.includes(userInfo.id))
     {

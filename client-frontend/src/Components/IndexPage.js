@@ -8,7 +8,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const IndexPage = ()=>
 {
     const navigate = useNavigate();
-    const {setUserInfo} = useContext(UserContext);   
+    const {userInfo, setUserInfo} = useContext(UserContext);   
     const [posts, setPosts] = useState('');
     const [page, setPage] = useState(1);
     const [newdata, setnewdata] = useState(0);
